@@ -59,7 +59,13 @@ let myGraph =
     |> CyGraph.withLayout (Layout.initBreadthfirst id) 
     |> CyGraph.withSize(800, 400) 
 
-Layout.initBreadthfirst
 
+(***do-not-eval***)
 myGraph
-|> CyGraph.show        
+|> CyGraph.show
+
+(*** hide ***)
+myGraph
+|> CyGraph.withSize(600, 400) 
+|> Cyjs.NET.HTML.toEmbeddedHTML
+(*** include-it-raw ***)  

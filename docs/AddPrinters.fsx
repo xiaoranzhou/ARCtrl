@@ -1,3 +1,4 @@
+(*** do-not-eval ***)
 #r "nuget: ISADotNet"
 
 open ISADotNet
