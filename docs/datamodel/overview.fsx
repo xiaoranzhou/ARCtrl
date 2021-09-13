@@ -116,7 +116,7 @@ let cyGraph = createGraph cyNodes cyEdges
 // cyGraph
 // |> CyGraph.show
 
-
+(*** hide ***)
 cyGraph
 |> CyGraph.withSize(600, 400) 
 |> Cyjs.NET.HTML.toEmbeddedHTML
