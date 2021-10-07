@@ -40,6 +40,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "datamodel", "datamodel", "{
 		docs\datamodel\Study.fsx = docs\datamodel\Study.fsx
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ISADotNet.XLSX", "ISADotNet.XLSX", "{92660AA3-F651-48A4-AF77-A59254D06E94}"
+	ProjectSection(SolutionItems) = preProject
+		docs\ISADotNet.XLSX\Assay.fsx = docs\ISADotNet.XLSX\Assay.fsx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +69,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{905E3EBB-7E1E-4B8A-B951-103C5D1473AE} = {BF89DA8A-6623-409E-9902-E90D6327AE97}
+		{92660AA3-F651-48A4-AF77-A59254D06E94} = {BF89DA8A-6623-409E-9902-E90D6327AE97}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F4FA3718-6BBE-44B3-A581-3309B3967A0A}

@@ -38,10 +38,12 @@ let hasParts =
 (**
 # Procotol
 
-The protocol is a generalized instruction. It describes in detail how to perform an experimental aim but leaves two freedoms:
+The ISA protocol is a generalized instruction. It describes in detail how to perform an experimental aim but leaves two freedoms:
 
 - The input and output files are not stated
 - It contains some open [parameters](ProtoclParameter.html), for which no specific values are given. 
+
+Therefore an ISA protocol `does not` exactly match the usage of the word in the laboratory context. Whereas the protocol 
 
 An applied protocol is a [process](Process.html).
 
