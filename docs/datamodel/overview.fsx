@@ -18,48 +18,73 @@ open Elements
 
 // do fsi.AddPrinter(fun (printer:Deedle.Internal.IFsiFormattable) -> "\n" + (printer.Format()))
 
-let f = Frame.ReadCsv(__SOURCE_DIRECTORY__ + @"\typeDependancies.tab",separators = "\t")
+let f = 
+    Frame.ReadCsv(__SOURCE_DIRECTORY__ + @"\typeDependancies.tab",separators = "\t")
+    |> Frame.filterRows (fun _ os -> 
+        os.GetAs<string> "Source" <> "Remark" 
+        && os.GetAs<string> "Name" <> "Remarks" 
+        && os.GetAs<string> "Source" <> "Comment" 
+        && os.GetAs<string> "Source" <> "OntologyAnnotation" 
+    )
 
 let createLink n = sprintf """<a href="%s.html">%s</a>""" n n
 
-let createNode (name,c) = 
-    node name [ CyParam.label name; if c = "Record" then CyParam.shape "triangle" else CyParam.shape "square"]
+let createNode (name,label,c) = 
+    let shape,color = if c = "Record" then "triangle","#6FB1FC" elif c = "Union" then "square","#6FB1FC" else "square","#999999"
+    node name [ CyParam.label label; CyParam.shape shape; CyParam.color color; CyParam.weight 60]
 
-let createEdge (source,target,name,edgeType) =
+let createEdge ((source,sourceType),(target,targetType),edgeType) =
     let color =
         if edgeType = "Single" then "#6FB1FC"
         elif edgeType = "Many" then "#86B342"
         else "#EDA1ED"
-    edge (source + "_" + name) source target [CyParam.label "name"; CyParam.color color]
+    edge (source + "_" + targetType) source target [CyParam.label targetType; CyParam.color color]
 
    
-let nodes = 
-    f
-    |> Frame.rows
-    |> Series.values
-    |> Seq.map (fun row -> row.GetAs<string>("Source"),row.GetAs<string>("SourceType"))
-    |> Seq.toArray
-    |> Array.distinct
-    |> Array.filter (fun (name,label) ->
-        (name <> "Int")
-        && (name <> "String")
-        && (name <> "Float")
-        && (name <> "OntologyAnnotation")
-        && (name <> "Remark")
-        && (name <> "Comment")
-    )
-
 let edges = 
     f
     |> Frame.rows
     |> Series.values
-    |> Seq.map (fun row -> row.GetAs<string>("Source"),row.GetAs<string>("Target"),row.GetAs<string>("Name"),row.GetAs<string>("EdgeType"))
-    |> Seq.toArray
-    |> Array.filter (fun (source,target,_,_) ->
-        (Array.exists (fst >> (=) source) nodes)
-        &&
-        (Array.exists (fst >> (=) target) nodes)
+    |> Seq.map (fun row -> 
+        let source = row.GetAs<string>("Source")
+        let sourceType = row.GetAs<string>("SourceType")
+        let edgeType = row.GetAs<string>("EdgeType")
+        let target = row.GetAs<string>("Target")
+        let name =
+            if 
+                (target = "Int")
+                || (target = "String")
+                || (target = "Float")
+                || (target = "OntologyAnnotation")
+                || (target = "Remark")
+                || (target = "Comment")
+            then
+                source + row.GetAs<string>("Name"),row.GetAs<string>("Name")
+            else target,target
+
+        (source,sourceType),
+        name,
+        edgeType
     )
+    |> Seq.toArray
+
+let nodes = 
+    let mains = 
+        edges
+        |> Array.map (fun ((s,st),(t,tt),et) ->
+            s,s,st
+        )
+        |> Array.distinct
+    let secondarys = 
+        edges
+        |> Array.choose (fun ((s,st),(t,tt),et) ->
+            if Array.exists (fun (a,b,c) -> a = t) mains then
+                None
+            else
+                Some (t,tt,"Minor")
+        )
+        |> Array.distinct
+    Array.append mains secondarys
 
 let createGraph nodes edges = 
     CyGraph.initEmpty ()
@@ -73,8 +98,10 @@ let createGraph nodes edges =
             // A linear style mapper like this: CyParam.width "mapData(weight, 40, 80, 20, 60)"
             CyParam.content =. CyParam.label
             CyParam.Text.Align.center
-            CyParam.Text.Outline.width 2
-            CyParam.Text.Outline.color =. CyParam.color  //=. CyParam.color
+            CyParam.Text.Outline.color "#000000"
+            CyParam.Text.Outline.width 0.8
+            CyParam.weight 100
+            //CyParam.Text.Outline.color =. CyParam.color  //=. CyParam.color
             CyParam.Background.color   =. CyParam.color  //=. CyParam.color
             CyParam.color =. CyParam.color
             
@@ -91,14 +118,15 @@ let createGraph nodes edges =
                     CyParam.Source.Arrow.color =. CyParam.color
                 ]
     |> CyGraph.withLayout (
-            Layout.initBreadthfirst (Layout.LayoutOptions.Cose(ComponentSpacing=40)) 
+            Layout.initBreadthfirst (Layout.LayoutOptions.Cose((*ComponentSpacing=40*))) 
             )  
-    |> CyGraph.withSize(800, 800) 
+    //|> CyGraph.withSize(800, 800) 
 
 (**
 # Datamodel overview
 
 *)
+
 
 (*** hide ***)
 let cyNodes = 
@@ -113,8 +141,9 @@ let cyGraph = createGraph cyNodes cyEdges
 
 
 // (***do-not-eval***)
-// cyGraph
-// |> CyGraph.show
+cyGraph
+|> CyGraph.withSize(3000, 3000) 
+|> CyGraph.show
 
 (*** hide ***)
 cyGraph
