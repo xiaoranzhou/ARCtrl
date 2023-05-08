@@ -54,10 +54,19 @@ module Value =
         File.WriteAllText(path,toString v)
 
 module Factor =  
+    
+    let genID (f:Factor) = 
+        match f.ID with
+            | Some id -> URI.toString id
+            | None -> match f.Name with
+                        | Some n -> "#Factor_" + n
+                        | None -> "#EmptyFactor"
 
     let encoder (options : ConverterOptions) (oa : obj) = 
         [
-            tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
+            if options.SetID then "@id", GEncode.string (oa :?> Factor |> genID)
+                else tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
+            if options.IncludeType then "@type", GEncode.string "Factor"
             tryInclude "factorName" GEncode.string (oa |> tryGetPropertyValue "Name")
             tryInclude "factorType" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "FactorType")
             tryInclude "comments" (Comment.encoder options) (oa |> tryGetPropertyValue "Comments")
@@ -81,6 +90,11 @@ module Factor =
     let toString (f:Factor) = 
         encoder (ConverterOptions()) f
         |> Encode.toString 2
+    
+    /// exports in json-ld format
+    let toStringLD (f:Factor) = 
+        encoder (ConverterOptions(SetID=true,IncludeType=true)) f
+        |> Encode.toString 2
 
     let fromFile (path : string) = 
         File.ReadAllText path 
@@ -89,12 +103,23 @@ module Factor =
     let toFile (path : string) (f:Factor) = 
         File.WriteAllText(path,toString f)
 
+    // exports in json-ld format
+    let toFileLD (path : string) (f:Factor) = 
+        File.WriteAllText(path,toStringLD f)
+
 
 module FactorValue =
+    
+    let genID (fv:FactorValue) = 
+        match fv.ID with
+            | Some id -> URI.toString id
+            | None -> "#EmptyFactorValue"
 
     let encoder (options : ConverterOptions) (oa : obj) = 
         [
-            tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
+            if options.SetID then "@id", GEncode.string (oa :?> FactorValue |> genID)
+                else tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
+            if options.IncludeType then "@type", GEncode.string "FactorValue"
             tryInclude "category" (Factor.encoder options) (oa |> tryGetPropertyValue "Category")
             tryInclude "value" (Value.encoder options) (oa |> tryGetPropertyValue "Value")
             tryInclude "unit" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "Unit")
@@ -118,6 +143,11 @@ module FactorValue =
     let toString (f:FactorValue) = 
         encoder (ConverterOptions()) f
         |> Encode.toString 2
+    
+    /// exports in json-ld format
+    let toStringLD (f:FactorValue) = 
+        encoder (ConverterOptions(SetID=true,IncludeType=true)) f
+        |> Encode.toString 2
 
     let fromFile (path : string) = 
         File.ReadAllText path 
@@ -125,3 +155,7 @@ module FactorValue =
 
     let toFile (path : string) (f:FactorValue) = 
         File.WriteAllText(path,toString f)
+
+    // exports in json-ld format
+    let toFileLD (path : string) (f:FactorValue) = 
+        File.WriteAllText(path,toStringLD f)

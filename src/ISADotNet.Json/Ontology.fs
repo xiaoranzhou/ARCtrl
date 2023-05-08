@@ -35,9 +35,18 @@ module AnnotationValue =
 
 
 module OntologySourceReference = 
+    
+    let genID (o:OntologySourceReference) = 
+        match o.File with
+            | Some f -> f
+            | None -> match o.Name with
+                        | Some n -> n
+                        | None -> "#DummyOntologySourceRef"
 
     let encoder (options : ConverterOptions) (osr : obj) = 
         [
+            if options.SetID then "@id", GEncode.string (osr :?> OntologySourceReference |> genID)
+            if options.IncludeType then "@type", GEncode.string "OntologySourceReference"
             tryInclude "description" GEncode.string (osr |> tryGetPropertyValue "Description")
             tryInclude "file" GEncode.string (osr |> tryGetPropertyValue "File")
             tryInclude "name" GEncode.string (osr |> tryGetPropertyValue "Name")
@@ -65,6 +74,11 @@ module OntologySourceReference =
         encoder (ConverterOptions()) oa
         |> Encode.toString 2
 
+    /// exports in json-ld format
+    let toStringLD (oa:OntologySourceReference) = 
+        encoder (ConverterOptions(SetID=true,IncludeType=true)) oa
+        |> Encode.toString 2
+
     let fromFile (path : string) = 
         File.ReadAllText path 
         |> fromString
@@ -72,11 +86,26 @@ module OntologySourceReference =
     let toFile (path : string) (osr:OntologySourceReference) = 
         File.WriteAllText(path,toString osr)
 
+    // exports in json-ld format
+    let toFileLD (path : string) (osr:OntologySourceReference) = 
+        File.WriteAllText(path,toStringLD osr)
+
 module OntologyAnnotation =  
+    
+    let genID (o:OntologyAnnotation) = 
+        match o.ID with
+            | Some id -> URI.toString id
+            | None -> match o.TermAccessionNumber with
+                        | Some ta -> URI.toString ta
+                        | None -> match o.TermSourceREF with
+                                    | Some r -> "#" + r
+                                    | None -> "#DummyOntologySourceRef"
 
     let encoder (options : ConverterOptions) (oa : obj) = 
         [
-            tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
+            if options.SetID then "@id", GEncode.string (oa :?> OntologyAnnotation |> genID)
+                else tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
+            if options.IncludeType then "@type", GEncode.string "OntologyAnnotation"
             tryInclude "annotationValue" (AnnotationValue.encoder options) (oa |> tryGetPropertyValue "Name")
             tryInclude "termSource" GEncode.string (oa |> tryGetPropertyValue "TermSourceREF")
             tryInclude "termAccession" GEncode.string (oa |> tryGetPropertyValue "TermAccessionNumber")
@@ -103,9 +132,18 @@ module OntologyAnnotation =
         encoder (ConverterOptions()) oa
         |> Encode.toString 2
 
+    /// exports in json-ld format
+    let toStringLD (oa:OntologyAnnotation) = 
+        encoder (ConverterOptions(SetID=true,IncludeType=true)) oa
+        |> Encode.toString 2
+
     let fromFile (path : string) = 
         File.ReadAllText path 
         |> fromString
 
     let toFile (path : string) (oa:OntologyAnnotation) = 
         File.WriteAllText(path,toString oa)
+
+    // exports in json-ld format
+    let toFileLD (path : string) (oa:OntologyAnnotation) = 
+        File.WriteAllText(path,toStringLD oa)
