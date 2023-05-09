@@ -9,11 +9,6 @@ module Utils =
         |> Array.map (fun s -> s.Trim())
         |> Array.filter ((<>) "")
 
-<<<<<<< HEAD
-module Result =
-
-
-=======
 //module MyExpect =
 
 //    let matchingResult (vr : ValidationResult)=
@@ -100,14 +95,10 @@ module Result =
 //        |> matchingResult
 
 module Result =
->>>>>>> f88cf7da7c342bc3c4515addcfc62ed4f6b04daa
 
     let getMessage res =
         match res with
         | Ok m -> m
-<<<<<<< HEAD
-        | Error m -> m
-=======
         | Error m -> m
 
 let private firstDiff s1 s2 =
@@ -129,4 +120,3 @@ let mySequenceEqual actual expected message =
   | i,Some a,None ->
     failwithf "%s. Sequence actual longer than expected, at pos %i found item %A."
       message i a
->>>>>>> f88cf7da7c342bc3c4515addcfc62ed4f6b04daa
