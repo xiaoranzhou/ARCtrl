@@ -21,7 +21,7 @@
     <Compile Include="DataModel\Assay.fs" />
     <Compile Include="DataModel\Study.fs" />
     <Compile Include="DataModel\Investigation.fs" />
-    <Compile Include="DataModel\SwateCustomXml.fs" />
+    <Compile Include="API\Fable.fs" />
     <Compile Include="API\Update.fs" />
     <Compile Include="API\Comment.fs" />
     <Compile Include="API\Ontology.fs" />
@@ -46,9 +46,7 @@
     <EmbeddedResource Remove="JsonIO\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="*.fsproj; **\*.fs; **\*.fsi" PackagePath="fable\" />
-  </ItemGroup>
+  <ItemGroup />
 
   <ItemGroup>
     <Content Remove="JsonIO\**" />

@@ -51,13 +51,9 @@ module Comment =
         encoder (ConverterOptions(SetID=true,IncludeType=true)) c
         |> Encode.toString 2
 
-    let fromFile (path : string) = 
-        File.ReadAllText path 
-        |> fromString
+    //let fromFile (path : string) = 
+    //    File.ReadAllText path 
+    //    |> fromString
 
-    let toFile (path : string) (c:Comment) = 
-        File.WriteAllText(path,toString c)
-
-    // exports in json-ld format
-    let toFileLD (path : string) (c:Comment) = 
-        File.WriteAllText(path,toStringLD c)
+    //let toFile (path : string) (c:Comment) = 
+    //    File.WriteAllText(path,toString c)

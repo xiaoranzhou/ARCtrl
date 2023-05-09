@@ -79,16 +79,12 @@ module OntologySourceReference =
         encoder (ConverterOptions(SetID=true,IncludeType=true)) oa
         |> Encode.toString 2
 
-    let fromFile (path : string) = 
-        File.ReadAllText path 
-        |> fromString
+    //let fromFile (path : string) = 
+    //    File.ReadAllText path 
+    //    |> fromString
 
-    let toFile (path : string) (osr:OntologySourceReference) = 
-        File.WriteAllText(path,toString osr)
-
-    // exports in json-ld format
-    let toFileLD (path : string) (osr:OntologySourceReference) = 
-        File.WriteAllText(path,toStringLD osr)
+    //let toFile (path : string) (osr:OntologySourceReference) = 
+    //    File.WriteAllText(path,toString osr)
 
 module OntologyAnnotation =  
     
@@ -137,13 +133,9 @@ module OntologyAnnotation =
         encoder (ConverterOptions(SetID=true,IncludeType=true)) oa
         |> Encode.toString 2
 
-    let fromFile (path : string) = 
-        File.ReadAllText path 
-        |> fromString
+    //let fromFile (path : string) = 
+    //    File.ReadAllText path 
+    //    |> fromString
 
-    let toFile (path : string) (oa:OntologyAnnotation) = 
-        File.WriteAllText(path,toString oa)
-
-    // exports in json-ld format
-    let toFileLD (path : string) (oa:OntologyAnnotation) = 
-        File.WriteAllText(path,toStringLD oa)
+    //let toFile (path : string) (oa:OntologyAnnotation) = 
+    //    File.WriteAllText(path,toString oa)

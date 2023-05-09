@@ -45,17 +45,6 @@ module ProtocolParameter =
         encoder (ConverterOptions(SetID=true,IncludeType=true)) p
         |> Encode.toString 2
 
-    let fromFile (path : string) = 
-        File.ReadAllText path 
-        |> fromString
-
-    let toFile (path : string) (p:ProtocolParameter) = 
-        File.WriteAllText(path,toString p)
-
-    // exports in json-ld format
-    let toFileLD (path : string) (p:ProtocolParameter) = 
-        File.WriteAllText(path,toStringLD p)
-
 module Component =
     
     let genID (c:Component) = 
@@ -104,16 +93,12 @@ module Component =
         encoder (ConverterOptions(SetID=true,IncludeType=true)) p
         |> Encode.toString 2
 
-    let fromFile (path : string) = 
-        File.ReadAllText path 
-        |> fromString
+    // let fromFile (path : string) = 
+    //     File.ReadAllText path 
+    //     |> fromString
 
-    let toFile (path : string) (p:Component) = 
-        File.WriteAllText(path,toString p)
-
-    // exports in json-ld format
-    let toFileLD (path : string) (p:Component) = 
-        File.WriteAllText(path,toStringLD p)
+    // let toFile (path : string) (p:Component) = 
+    //     File.WriteAllText(path,toString p)
 
 module Protocol =   
     
@@ -170,13 +155,9 @@ module Protocol =
         encoder (ConverterOptions(SetID=true,IncludeType=true)) p
         |> Encode.toString 2
 
-    let fromFile (path : string) = 
-        File.ReadAllText path 
-        |> fromString
+    //let fromFile (path : string) = 
+    //    File.ReadAllText path 
+    //    |> fromString
 
-    let toFile (path : string) (p:Protocol) = 
-        File.WriteAllText(path,toString p)
-
-    // exports in json-ld format
-    let toFileLD (path : string) (p:Protocol) = 
-        File.WriteAllText(path,toStringLD p)
+    //let toFile (path : string) (p:Protocol) = 
+    //    File.WriteAllText(path,toString p)

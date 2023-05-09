@@ -26,13 +26,23 @@ module GDecode =
         match Decode.fromString decoder s with
         | Ok a -> a
         | Error e -> failwith (sprintf "Error decoding string: %s" e)
-   
+    
+    [<Emit("Object.getOwnPropertyNames($0)")>]
+    let getFieldNamesFable (json : JsonValue) = jsNative
+
     let getFieldNames (json : JsonValue) = 
+        //Fable.print json
+        #if FABLE_COMPILER 
+        let r = getFieldNamesFable json
+        //Fable.print r
+        r
+        #else
         match json with
         | :? JObject as json -> 
             json.Properties()
             |> Seq.map (fun x -> x.Name)
         | _ -> Seq.empty
+        #endif
 
     let hasUnknownFields (knownFields : string list) (json : JsonValue) = 
         getFieldNames json

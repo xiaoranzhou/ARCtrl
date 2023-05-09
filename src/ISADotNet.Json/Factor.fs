@@ -46,12 +46,12 @@ module Value =
         encoder (ConverterOptions()) v
         |> Encode.toString 2
 
-    let fromFile (path : string) = 
-        File.ReadAllText path 
-        |> fromString
+    //let fromFile (path : string) = 
+    //    File.ReadAllText path 
+    //    |> fromString
 
-    let toFile (path : string) (v:Value) = 
-        File.WriteAllText(path,toString v)
+    //let toFile (path : string) (v:Value) = 
+    //    File.WriteAllText(path,toString v)
 
 module Factor =  
     
@@ -96,16 +96,12 @@ module Factor =
         encoder (ConverterOptions(SetID=true,IncludeType=true)) f
         |> Encode.toString 2
 
-    let fromFile (path : string) = 
-        File.ReadAllText path 
-        |> fromString
+    //let fromFile (path : string) = 
+    //    File.ReadAllText path 
+    //    |> fromString
 
-    let toFile (path : string) (f:Factor) = 
-        File.WriteAllText(path,toString f)
-
-    // exports in json-ld format
-    let toFileLD (path : string) (f:Factor) = 
-        File.WriteAllText(path,toStringLD f)
+    //let toFile (path : string) (f:Factor) = 
+    //    File.WriteAllText(path,toString f)
 
 
 module FactorValue =
@@ -149,13 +145,9 @@ module FactorValue =
         encoder (ConverterOptions(SetID=true,IncludeType=true)) f
         |> Encode.toString 2
 
-    let fromFile (path : string) = 
-        File.ReadAllText path 
-        |> fromString
+    //let fromFile (path : string) = 
+    //    File.ReadAllText path 
+    //    |> fromString
 
-    let toFile (path : string) (f:FactorValue) = 
-        File.WriteAllText(path,toString f)
-
-    // exports in json-ld format
-    let toFileLD (path : string) (f:FactorValue) = 
-        File.WriteAllText(path,toStringLD f)
+    //let toFile (path : string) (f:FactorValue) = 
+    //    File.WriteAllText(path,toString f)
