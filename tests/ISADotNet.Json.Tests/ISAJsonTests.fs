@@ -110,27 +110,58 @@ let testProtocolFile =
         //    MyExpect.matchingProtocol s
         //)
 
-        //testCase "OutputMatchesInput" (fun () ->
+        testCase "OutputMatchesInput" (fun () ->
 
-        //    let o = 
-        //        Protocol.fromString TestFiles.Protocol.protocol
-        //        |> Protocol.toString
+           let o = 
+               Protocol.fromString TestFiles.Protocol.protocol
+               |> Protocol.toString
 
-        //    let expected = 
-        //        TestFiles.Protocol.protocol
-        //        |> Utils.extractWords
-        //        |> Array.countBy id
-        //        |> Array.sortBy fst
+           let expected = 
+               TestFiles.Protocol.protocol
+               |> Utils.extractWords
+               |> Array.countBy id
+               |> Array.sortBy fst
 
-        //    let actual = 
-        //        o
-        //        |> Utils.extractWords
-        //        |> Array.countBy id
-        //        |> Array.sortBy fst
+           let actual = 
+               o
+               |> Utils.extractWords
+               |> Array.countBy id
+               |> Array.sortBy fst
 
-        //    Expect.equal actual expected "Written protocol file does not match read protocol file"
-        //)
-        //|> testSequenced
+           Expect.equal actual expected "Written protocol file does not match read protocol file"
+        )
+        |> testSequenced
+    ]
+
+let testProtocolFileLD =
+
+    testList "ProtocolJsonTests" [
+        testCase "ReaderSuccess" (fun () -> 
+            
+            let readingSuccess = 
+                try 
+                    Protocol.fromString TestFiles.Protocol.protocolLD |> ignore
+                    Result.Ok "DidRun"
+                with
+                | err -> Result.Ok(sprintf "Reading the test file failed: %s" err.Message)
+
+            Expect.isOk readingSuccess (Result.getMessage readingSuccess)
+
+        )
+
+        testCase "WriterSuccess" (fun () ->
+
+            let p = Protocol.fromString TestFiles.Protocol.protocol
+
+            let writingSuccess = 
+                try 
+                    Protocol.toStringLD p |> ignore
+                    Result.Ok "DidRun"
+                with
+                | err -> Result.Ok(sprintf "Writing the test file failed: %s" err.Message)
+
+            Expect.isOk writingSuccess (Result.getMessage writingSuccess)
+        )
     ]
 
 let testProcessFile =
