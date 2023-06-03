@@ -26,6 +26,7 @@ module ProcessParameterValue =
             tryInclude "unit" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "Unit")
         ]
         |> GEncode.choose
+        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/arc-to-roc3/isa-api/isatools/resources/json-context/sdo/isa_process_parameter_value_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<ProcessParameterValue> =
@@ -47,6 +48,9 @@ module ProcessParameterValue =
     /// exports in json-ld format
     let toStringLD (p:ProcessParameterValue) = 
         encoder (ConverterOptions(SetID=true,IncludeType=true)) p
+        |> Encode.toString 2
+    let toStringLDWithContext (a:ProcessParameterValue) = 
+        encoder (ConverterOptions(SetID=true,IncludeType=true,IncludeContext=true)) a
         |> Encode.toString 2
 
     //let fromFile (path : string) = 
@@ -96,6 +100,9 @@ module ProcessInput =
     let toStringLD (m:ProcessInput) = 
         encoder (ConverterOptions(SetID=true,IncludeType=true)) m
         |> Encode.toString 2
+    let toStringLDWithContext (a:ProcessInput) = 
+        encoder (ConverterOptions(SetID=true,IncludeType=true,IncludeContext=true)) a
+        |> Encode.toString 2
 
     //let fromFile (path : string) = 
     //    File.ReadAllText path 
@@ -135,6 +142,9 @@ module ProcessOutput =
     let toString (m:ProcessInput) = 
         encoder (ConverterOptions()) m
         |> Encode.toString 2
+    let toStringLDWithContext (a:ProcessInput) = 
+        encoder (ConverterOptions(SetID=true,IncludeType=true,IncludeContext=true)) a
+        |> Encode.toString 2
 
     //let fromFile (path : string) = 
     //    File.ReadAllText path 
@@ -170,6 +180,7 @@ module Process =
             tryInclude "comments" (Comment.encoder options) (oa |> tryGetPropertyValue "Comments")
         ]
         |> GEncode.choose
+        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/arc-to-roc3/isa-api/isatools/resources/json-context/sdo/isa_process_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let rec decoder (options : ConverterOptions) : Decoder<Process> =
@@ -200,6 +211,9 @@ module Process =
     let toStringLD (p:Process) = 
         encoder (ConverterOptions(SetID=true,IncludeType=true)) p
         |> Encode.toString 2
+    let toStringLDWithContext (a:Process) = 
+        encoder (ConverterOptions(SetID=true,IncludeType=true,IncludeContext=true)) a
+        |> Encode.toString 2
 
     //let fromFile (path : string) = 
     //    File.ReadAllText path 
@@ -223,6 +237,11 @@ module ProcessSequence =
     let toStringLD (p:Process list) = 
         p
         |> List.map (Process.encoder (ConverterOptions(SetID=true,IncludeType=true)))
+        |> Encode.list
+        |> Encode.toString 2
+    let toStringLDWithContext (p:Process list) = 
+        p
+        |> List.map (Process.encoder (ConverterOptions(SetID=true,IncludeType=true,IncludeContext=true)))
         |> Encode.list
         |> Encode.toString 2
 

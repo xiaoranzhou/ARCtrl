@@ -78,6 +78,9 @@ module OntologySourceReference =
     let toStringLD (oa:OntologySourceReference) = 
         encoder (ConverterOptions(SetID=true,IncludeType=true)) oa
         |> Encode.toString 2
+    let toStringLDWithContext (a:OntologySourceReference) = 
+        encoder (ConverterOptions(SetID=true,IncludeType=true,IncludeContext=true)) a
+        |> Encode.toString 2
 
     // let fromFile (path : string) = 
     //     File.ReadAllText path 
@@ -131,6 +134,9 @@ module OntologyAnnotation =
     /// exports in json-ld format
     let toStringLD (oa:OntologyAnnotation) = 
         encoder (ConverterOptions(SetID=true,IncludeType=true)) oa
+        |> Encode.toString 2
+    let toStringLDWithContext (a:OntologyAnnotation) = 
+        encoder (ConverterOptions(SetID=true,IncludeType=true,IncludeContext=true)) a
         |> Encode.toString 2
 
     //let fromFile (path : string) = 

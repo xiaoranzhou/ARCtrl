@@ -43,6 +43,7 @@ module MaterialAttribute =
             tryInclude "characteristicType" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "CharacteristicType")
         ]
         |> GEncode.choose
+        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/arc-to-roc3/isa-api/isatools/resources/json-context/sdo/isa_material_attribute_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<MaterialAttribute> =
@@ -63,6 +64,9 @@ module MaterialAttribute =
     /// exports in json-ld format
     let toStringLD (m:MaterialAttribute) = 
         encoder (ConverterOptions(SetID=true,IncludeType=true)) m
+        |> Encode.toString 2
+    let toStringLDWithContext (a:MaterialAttribute) = 
+        encoder (ConverterOptions(SetID=true,IncludeType=true,IncludeContext=true)) a
         |> Encode.toString 2
 
     //let fromFile (path : string) = 
@@ -89,6 +93,7 @@ module MaterialAttributeValue =
             tryInclude "unit" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "Unit")
         ]
         |> GEncode.choose
+        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/arc-to-roc3/isa-api/isatools/resources/json-context/sdo/isa_material_attribute_value_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<MaterialAttributeValue> =
@@ -111,6 +116,9 @@ module MaterialAttributeValue =
     /// exports in json-ld format
     let toStringLD (m:MaterialAttributeValue) = 
         encoder (ConverterOptions(SetID=true,IncludeType=true)) m
+        |> Encode.toString 2
+    let toStringLDWithContext (a:MaterialAttributeValue) = 
+        encoder (ConverterOptions(SetID=true,IncludeType=true,IncludeContext=true)) a
         |> Encode.toString 2
 
     //let fromFile (path : string) = 
@@ -141,6 +149,7 @@ module Material =
             tryInclude "derivesFrom" (encoder options) (oa |> tryGetPropertyValue "DerivesFrom")
         ]
         |> GEncode.choose
+        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/arc-to-roc3/isa-api/isatools/resources/json-context/sdo/isa_material_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let rec decoder (options : ConverterOptions) : Decoder<Material> =
@@ -168,6 +177,9 @@ module Material =
     /// exports in json-ld format
     let toStringLD (m:Material) = 
         encoder (ConverterOptions(SetID=true,IncludeType=true)) m
+        |> Encode.toString 2
+    let toStringLDWithContext (a:Material) = 
+        encoder (ConverterOptions(SetID=true,IncludeType=true,IncludeContext=true)) a
         |> Encode.toString 2
 
     //let fromFile (path : string) = 

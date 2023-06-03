@@ -53,6 +53,7 @@ module Data =
             tryInclude "comments" (Comment.encoder options) (oa |> tryGetPropertyValue "Comments")
         ]
         |> GEncode.choose
+        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/arc-to-roc3/isa-api/isatools/resources/json-context/sdo/isa_data_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let rec decoder (options : ConverterOptions) : Decoder<Data> =
@@ -83,6 +84,9 @@ module Data =
     let toStringLD (d:Data) = 
         encoder (ConverterOptions(SetID=true,IncludeType=true)) d
         |> Encode.toString 2
+    let toStringLDWithContext (a:Data) = 
+        encoder (ConverterOptions(SetID=true,IncludeType=true,IncludeContext=true)) a
+        |> Encode.toString 2
 
     //let fromFile (path : string) = 
     //    File.ReadAllText path 
@@ -109,6 +113,7 @@ module Source =
             tryInclude "name" GEncode.string (oa |> tryGetPropertyValue "Name")
             tryInclude "characteristics" (MaterialAttributeValue.encoder options) (oa |> tryGetPropertyValue "Characteristics")        ]
         |> GEncode.choose
+        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/arc-to-roc3/isa-api/isatools/resources/json-context/sdo/isa_source_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let rec decoder (options : ConverterOptions) : Decoder<Source> =
@@ -136,6 +141,9 @@ module Source =
     /// exports in json-ld format
     let toStringLD (s:Source) = 
         encoder (ConverterOptions(SetID=true,IncludeType=true)) s
+        |> Encode.toString 2
+    let toStringLDWithContext (a:Source) = 
+        encoder (ConverterOptions(SetID=true,IncludeType=true,IncludeContext=true)) a
         |> Encode.toString 2
 
     //let fromFile (path : string) = 
@@ -165,6 +173,7 @@ module Sample =
             tryInclude "derivesFrom" (Source.encoder options) (oa |> tryGetPropertyValue "DerivesFrom")
         ]
         |> GEncode.choose
+        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/arc-to-roc3/isa-api/isatools/resources/json-context/sdo/isa_sample_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<Sample> =
@@ -193,6 +202,9 @@ module Sample =
     /// exports in json-ld format
     let toStringLD (s:Sample) = 
         encoder (ConverterOptions(SetID=true,IncludeType=true)) s
+        |> Encode.toString 2
+    let toStringLDWithContext (a:Sample) = 
+        encoder (ConverterOptions(SetID=true,IncludeType=true,IncludeContext=true)) a
         |> Encode.toString 2
 
     //let fromFile (path : string) = 

@@ -72,6 +72,7 @@ module Factor =
             tryInclude "comments" (Comment.encoder options) (oa |> tryGetPropertyValue "Comments")
         ]
         |> GEncode.choose
+        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/arc-to-roc3/isa-api/isatools/resources/json-context/sdo/isa_factor_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<Factor> =
@@ -94,6 +95,9 @@ module Factor =
     /// exports in json-ld format
     let toStringLD (f:Factor) = 
         encoder (ConverterOptions(SetID=true,IncludeType=true)) f
+        |> Encode.toString 2
+    let toStringLDWithContext (a:Factor) = 
+        encoder (ConverterOptions(SetID=true,IncludeType=true,IncludeContext=true)) a
         |> Encode.toString 2
 
     //let fromFile (path : string) = 
@@ -121,6 +125,7 @@ module FactorValue =
             tryInclude "unit" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "Unit")
         ]
         |> GEncode.choose
+        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/arc-to-roc3/isa-api/isatools/resources/json-context/sdo/isa_factor_value_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<FactorValue> =
@@ -143,6 +148,9 @@ module FactorValue =
     /// exports in json-ld format
     let toStringLD (f:FactorValue) = 
         encoder (ConverterOptions(SetID=true,IncludeType=true)) f
+        |> Encode.toString 2
+    let toStringLDWithContext (a:FactorValue) = 
+        encoder (ConverterOptions(SetID=true,IncludeType=true,IncludeContext=true)) a
         |> Encode.toString 2
 
     //let fromFile (path : string) = 
