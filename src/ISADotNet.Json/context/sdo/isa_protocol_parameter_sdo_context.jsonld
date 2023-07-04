@@ -1,0 +1,10 @@
+{
+  "@context": {
+    "sdo": "http://schema.org/",
+    "ProtocolParameter": "sdo:PropertyValue",
+    "parameterName": "sdo:name",
+    "type": "sdo:hasCategoryCode",
+    "comments": "sdo:comment"
+  }
+}
+

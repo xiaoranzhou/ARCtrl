@@ -1,0 +1,10 @@
+{
+  "@context": {
+    "sdo": "http://schema.org/",
+    "OntologyAnnotation": "sdo:DefinedTerm",
+    "annotationValue": "sdo:StructuredValue",
+    "termSource": "sdo:inCodeSet",
+    "termAccession": "obo:codeValue",
+    "comments": "sdo:comment"
+  }
+}

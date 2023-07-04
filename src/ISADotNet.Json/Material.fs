@@ -43,7 +43,7 @@ module MaterialAttribute =
             tryInclude "characteristicType" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "CharacteristicType")
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/arc-to-roc3/isa-api/isatools/resources/json-context/sdo/isa_material_attribute_sdo_context.jsonld")).GetValue("@context"))] else [])
+        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_material_attribute_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<MaterialAttribute> =
@@ -93,7 +93,7 @@ module MaterialAttributeValue =
             tryInclude "unit" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "Unit")
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/arc-to-roc3/isa-api/isatools/resources/json-context/sdo/isa_material_attribute_value_sdo_context.jsonld")).GetValue("@context"))] else [])
+        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_material_attribute_value_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<MaterialAttributeValue> =
@@ -149,7 +149,7 @@ module Material =
             tryInclude "derivesFrom" (encoder options) (oa |> tryGetPropertyValue "DerivesFrom")
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/arc-to-roc3/isa-api/isatools/resources/json-context/sdo/isa_material_sdo_context.jsonld")).GetValue("@context"))] else [])
+        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_material_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let rec decoder (options : ConverterOptions) : Decoder<Material> =

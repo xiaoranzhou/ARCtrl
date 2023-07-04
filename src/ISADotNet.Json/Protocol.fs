@@ -25,7 +25,7 @@ module ProtocolParameter =
             tryInclude "parameterName" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "ParameterName")
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/arc-to-roc3/isa-api/isatools/resources/json-context/sdo/isa_protocol_parameter_sdo_context.jsonld")).GetValue("@context"))] else [])
+        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_protocol_parameter_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<ProtocolParameter> =
@@ -73,7 +73,7 @@ module Component =
             tryInclude "componentType" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "ComponentType")
         ]
         |> GEncode.choose
-        // |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/arc-to-roc3/isa-api/isatools/resources/json-context/sdo/isa_component_sdo_context.jsonld")).GetValue("@context"))] else [])
+        // |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_component_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<Component> =
@@ -143,7 +143,7 @@ module Protocol =
             tryInclude "comments" (Comment.encoder options) (oa |> tryGetPropertyValue "Comments")
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/arc-to-roc3/isa-api/isatools/resources/json-context/sdo/isa_protocol_sdo_context.jsonld")).GetValue("@context"))] else [])
+        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_protocol_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<Protocol> =

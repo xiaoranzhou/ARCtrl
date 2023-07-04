@@ -40,7 +40,7 @@ module Investigation =
             tryInclude "comments" (Comment.encoder options) (oa |> tryGetPropertyValue "Comments")
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/arc-to-roc3/isa-api/isatools/resources/json-context/sdo/isa_investigation_sdo_context.jsonld")).GetValue("@context"))] else [])
+        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_investigation_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<Investigation> =
