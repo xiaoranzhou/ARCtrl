@@ -1,0 +1,11 @@
+{
+  "@context": {
+    "sdo": "http://schema.org/",
+    "Organization": "sdo:Organization",
+    "identifier": "sdo:identifier",
+    "name": "sdo:name",
+    "description": "sdo:description",
+    "postalAddress": "sdo:postalAddress",
+    "roles": "sdo:roleName"
+  }
+}

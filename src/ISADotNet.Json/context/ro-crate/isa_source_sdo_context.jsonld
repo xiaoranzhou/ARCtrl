@@ -1,0 +1,10 @@
+{
+  "@context": {
+    "sdo": "http://schema.org/",
+    "Source": "sdo:Product",
+    "identifier": "sdo:identifier",
+    "name": "sdo:name",
+    "characteristics": "sdo:hasPart",
+    "roles": "sdo:potentialAction"
+  }
+}

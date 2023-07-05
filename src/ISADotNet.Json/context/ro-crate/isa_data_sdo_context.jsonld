@@ -1,11 +1,10 @@
 {
   "@context": {
     "sdo": "http://schema.org/",
-    "Data": "sdo:MediaObject",
+    "Data": "sdo:DataDownload",
     "type": "sdo:encoding",
+    "identifier": "sdo:identifier",
     "name": "sdo:name",
-
-    "??": "sdo:??",
     "comments": "sdo:comment"
   }
 }

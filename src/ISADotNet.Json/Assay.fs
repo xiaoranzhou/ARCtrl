@@ -47,7 +47,19 @@ module Assay =
             tryInclude "technologyType" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "TechnologyType")
             tryInclude "technologyPlatform" GEncode.string (oa |> tryGetPropertyValue "TechnologyPlatform")
             tryInclude "dataFiles" (Data.encoder options) (oa |> tryGetPropertyValue "DataFiles")
-            tryInclude "materials" (AssayMaterials.encoder options) (oa |> tryGetPropertyValue "Materials")
+            if options.IsRoCrate then
+                let ass = oa:?> Assay
+                let mat = ass.Materials
+                match mat with
+                | Some m -> tryInclude "samples" (Sample.encoder options) (m |> tryGetPropertyValue "Samples")
+                | None -> ()
+            if options.IsRoCrate then
+                let ass = oa:?> Assay
+                let mat = ass.Materials
+                match mat with
+                | Some m -> tryInclude "materials" (Material.encoder options) (m |> tryGetPropertyValue "OtherMaterials")
+                | None -> ()
+            if not options.IsRoCrate then (tryInclude "materials" (AssayMaterials.encoder options) (oa |> tryGetPropertyValue "Materials"))
             tryInclude "characteristicCategories" (MaterialAttribute.encoder options) (oa |> tryGetPropertyValue "CharacteristicCategories")
             tryInclude "unitCategories" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "UnitCategories")
             tryInclude "processSequence" (Process.encoder options) (oa |> tryGetPropertyValue "ProcessSequence")

@@ -1,21 +1,23 @@
 {
   "@context": {
     "sdo": "http://schema.org/",
-    "Study": "sdo:MedicalStudy",
-    "filename": "sdo:hasPart",
+    "Study": "sdo:Dataset",
     "identifier": "sdo:identifier",
-    "title": "sdo:title",
-    "description": "sdo:description",
-    "submissionDate": "sdo:dateCreated",
-    "publicReleaseDate": "sdo:datePublished",
-    "publications": "sdo:citation",
     "people": "sdo:author",
-    "studyDesignDescriptors": "sdo:trialDesign",
-    "protocols": "sdo:hasPart",
-    "materials": "sdo:participant",
-    "processSequence": "sdo:hasPart",
     "assays": "sdo:hasPart",
-    "factors": "sdo:hasPart",
-    "characteristicCategories": "sdo:hasPart"
+
+    "??": "sdo:??",
+    "filename": "sdo:url",
+    "comments": "sdo:comment",
+    "protocols": "sdo:protocol?",
+    "materials": "sdo:material?",
+    "otherMaterials": "sdo:material?",
+    "sources": "sdo:source?",
+    "samples": "sdo:sample?",
+    "processSequence": "sdo:process?",
+    "factors": "sdo:factor?",
+    "characteristicCategories": "sdo:characteristic?",
+    "unitCategories": "sdo:unit?",
+    "studyDesignDescriptors": "sdo:trialDesign"
   }
 }

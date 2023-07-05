@@ -1,19 +1,16 @@
 {
   "@context": {
     "sdo": "http://schema.org/",
-    "identifier" : "sdo:identifier",
+    "Investigation": "sdo:Dataset",
+    "identifier" : "sdo:name",
     "title": "sdo:headline",
     "description": "sdo:description",
     "submissionDate": "sdo:dateCreated",
     "publicReleaseDate": "sdo:datePublished",
     "publications": "sdo:citation",
     "people": "sdo:creator",
+    "ontologySourceReferences": "sdo:?",
     "studies": "sdo:hasPart",
-
-    "??": "sdo:??",
-    "Investigation": "sdo:Dataset",
-    "ontologySourceReferences": "sdo:ontology?",
-    "comments": "sdo:comment",
-    "filename": "sdo:url"
+    "comments": "sdo:comment"
   }
 }

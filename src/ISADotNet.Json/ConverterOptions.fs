@@ -5,6 +5,7 @@ type ConverterOptions() =
     let mutable setID = false
     let mutable includeType = false
     let mutable includeContext = false
+    let mutable isRoCrate = false
 
     member this.SetID with
         get() = setID
@@ -15,3 +16,6 @@ type ConverterOptions() =
     member this.IncludeContext with
         get() = includeContext
         and set(iC) = includeContext <- iC
+    member this.IsRoCrate with
+        get() = isRoCrate
+        and set(iR) = isRoCrate <- iR

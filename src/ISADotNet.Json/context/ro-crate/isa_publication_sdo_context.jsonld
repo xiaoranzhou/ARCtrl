@@ -2,13 +2,12 @@
   "@context": {
     "sdo": "http://schema.org/",
     "Publication": "sdo:ScholarlyArticle",
+    "identifier": "sdo:identifier",
     "pubMedID": "sdo:url",
     "doi": "sdo:sameAs",
-    "title": "sdo:headline",
+    "title": "sdo:Periodical",
     "status": "sdo:creativeWorkStatus",
     "authorList": "sdo:author",
-
-    "??": "sdo:??",
-    "comments": "sdo:comment"
+    "comments": "sdo:Comment"
   }
 }

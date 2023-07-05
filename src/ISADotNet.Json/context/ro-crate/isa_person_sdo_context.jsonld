@@ -2,6 +2,7 @@
   "@context": {
     "sdo": "http://schema.org/",
     "Person": "sdo:Person",
+    "identifier": "sdo:identifier",
     "firstName": "sdo:givenName",
     "lastName": "sdo:familyName",
     "midInitials": "sdo:additionalName",
@@ -9,8 +10,6 @@
     "address": "sdo:address",
     "phone": "sdo:telephone",
     "fax": "sdo:faxNumber",
-    
-    "??": "sdo:??",
     "affiliations": "sdo:affiliation",
     "roles": "sdo:roleName"
   }

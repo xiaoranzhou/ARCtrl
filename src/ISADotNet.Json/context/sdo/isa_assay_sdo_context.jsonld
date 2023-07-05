@@ -1,20 +1,20 @@
 {
   "@context": {
     "sdo": "https://schema.org/",
-    "Assay": "sdo:MedicalTest",
-    "identifier": "sdo:identifier",
-    "name": "sdo:name",
-    "description": "sdo:description",
-    "filename": "sdo:url",
+    "Assay": "sdo:Dataset",
     "measurementType": "sdo:variableMeasured",
     "technologyType": "sdo:measurementTechnique",
     "technologyPlatform": "sdo:instrument",
-    "materials": "sdo:participant",
-    "othermaterials": "sdo:participant",
-    "characteristicCategories": "sdo:measuredProperty",
-    "dataFiles": "sdo:url",
-    "processSequences": "sdo:hasPart",
-    "unitCategories": "sdo:unit",
-    "comments": "sdo:comment"
+    "dataFiles": "sdo:hasPart",
+
+    "??": "sdo:??",
+    "materials": "sdo:material?",
+    "otherMaterials": "sdo:material?",
+    "samples": "sdo:sample?",
+    "characteristicCategories": "sdo:characteristic?",
+    "processSequences": "sdo:process?",
+    "unitCategories": "sdo:unit?",
+    "comments": "sdo:comment",
+    "filename": "sdo:url"
   }
 }

@@ -13,15 +13,17 @@ module Investigation =
     
     
     let genID (i:Investigation) = 
-        match i.ID with
-        | Some id -> URI.toString id
-        | None -> match i.FileName with
-                  | Some n -> "#Study_" + n.Replace(" ","_")
-                  | None -> match i.Identifier with
-                            | Some id -> "#Study_" + id.Replace(" ","_")
-                            | None -> match i.Title with
-                                      | Some t -> "#Study_" + t.Replace(" ","_")
-                                      | None -> "#EmptyStudy"
+        "./"
+        // match i.ID with
+        // | Some id -> URI.toString id
+        // | None -> match i.FileName with
+        //           | Some n -> "#Study_" + n.Replace(" ","_")
+        //           | None -> match i.Identifier with
+        //                     | Some id -> "#Study_" + id.Replace(" ","_")
+        //                     | None -> match i.Title with
+        //                               | Some t -> "#Study_" + t.Replace(" ","_")
+        //                               | None -> "#EmptyStudy"
+
     let encoder (options : ConverterOptions) (oa : obj) = 
         [
             if options.SetID then "@id", GEncode.string (oa :?> Investigation |> genID)
@@ -41,6 +43,17 @@ module Investigation =
         ]
         |> GEncode.choose
         |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_investigation_sdo_context.jsonld")).GetValue("@context"))] else [])
+        |> Encode.object
+
+    let encodeRoCrate (options : ConverterOptions) (oa : obj) = 
+        [
+            tryInclude "@type" GEncode.string (Some "CreativeWork")
+            tryInclude "@id" GEncode.string (Some "ro-crate-metadata.json")
+            tryInclude "about" (encoder options) (Some oa)
+        ]
+        |> GEncode.choose
+        |> List.append ([("conformsTo",Newtonsoft.Json.Linq.JObject.Parse("{\"@id\": \"https://w3id.org/ro/crate/1.1\"}"))])
+        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/rocrate_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<Investigation> =
@@ -75,6 +88,9 @@ module Investigation =
         |> Encode.toString 2
     let toStringLDWithContext (i:Investigation) = 
         encoder (ConverterOptions(SetID=true,IncludeType=true,IncludeContext=true)) i
+        |> Encode.toString 2
+    let toStringRoCrate (i:Investigation) = 
+        encodeRoCrate (ConverterOptions(SetID=true,IncludeType=true,IncludeContext=true,IsRoCrate=true)) i
         |> Encode.toString 2
 
     //let fromFile (path : string) = 

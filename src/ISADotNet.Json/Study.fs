@@ -58,7 +58,25 @@ module Study =
             tryInclude "people" (Person.encoder options) (oa |> tryGetPropertyValue "Contacts")
             tryInclude "studyDesignDescriptors" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "StudyDesignDescriptors")
             tryInclude "protocols" (Protocol.encoder options) (oa |> tryGetPropertyValue "Protocols")
-            tryInclude "materials" (StudyMaterials.encoder options) (oa |> tryGetPropertyValue "Materials")
+            if options.IsRoCrate then
+                let study = oa:?> Study
+                let mat = study.Materials
+                match mat with
+                | Some m -> tryInclude "samples" (Sample.encoder options) (m |> tryGetPropertyValue "Samples")
+                | None -> ()
+            if options.IsRoCrate then
+                let study = oa:?> Study
+                let mat = study.Materials
+                match mat with
+                | Some m -> tryInclude "sources" (Source.encoder options) (m |> tryGetPropertyValue "Sources")
+                | None -> ()
+            if options.IsRoCrate then
+                let study = oa:?> Study
+                let mat = study.Materials
+                match mat with
+                | Some m -> tryInclude "materials" (Material.encoder options) (m |> tryGetPropertyValue "OtherMaterials")
+                | None -> ()
+            if not options.IsRoCrate then (tryInclude "materials" (StudyMaterials.encoder options) (oa |> tryGetPropertyValue "Materials"))
             tryInclude "processSequence" (Process.encoder options) (oa |> tryGetPropertyValue "ProcessSequence")
             tryInclude "assays" (Assay.encoder options) (oa |> tryGetPropertyValue "Assays")            
             tryInclude "factors" (Factor.encoder options) (oa |> tryGetPropertyValue "Factors")
