@@ -1,7 +1,7 @@
 {
   "@context": {
     "sdo": "http://schema.org/",
-    "Source": "sdo:Product",
+    "Source": "sdo:BioChemEntity",
     "identifier": "sdo:identifier",
     "name": "sdo:name",
     "characteristics": "sdo:hasPart",

@@ -6,6 +6,6 @@
     "name": "sdo:name",
 
     "??": "sdo:??",
-    "comments": "sdo:comment"
+    "comments": "sdo:disambiguatingDescription"
   }
 }

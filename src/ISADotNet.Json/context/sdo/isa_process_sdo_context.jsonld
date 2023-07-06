@@ -13,6 +13,6 @@
     "input": "sdo:participant",
     "output": "sdo:result",
     "performer": "sdo:agent",
-    "comments": "sdo:comment"
+    "comments": "sdo:disambiguatingDescription"
   }
 }

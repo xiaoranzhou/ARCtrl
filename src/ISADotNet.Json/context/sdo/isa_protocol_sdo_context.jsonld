@@ -11,6 +11,6 @@
     "parameters": "sdo:PropertyValue",
     "uri": "sdo:url",
     "publications": "sdo:citation",
-    "comments": "sdo:comment"
+    "comments": "sdo:disambiguatingDescription"
   }
 }

@@ -14,7 +14,7 @@
     "characteristicCategories": "sdo:characteristic?",
     "processSequences": "sdo:process?",
     "unitCategories": "sdo:unit?",
-    "comments": "sdo:comment",
+    "comments": "sdo:disambiguatingDescription",
     "filename": "sdo:url"
   }
 }

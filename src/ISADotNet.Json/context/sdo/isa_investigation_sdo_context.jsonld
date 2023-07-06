@@ -9,11 +9,11 @@
     "publications": "sdo:citation",
     "people": "sdo:creator",
     "studies": "sdo:hasPart",
+    "ontologySourceReferences": "sdo:mentions",
+    "comments": "sdo:disambiguatingDescription",
 
     "??": "sdo:??",
     "Investigation": "sdo:Dataset",
-    "ontologySourceReferences": "sdo:ontology?",
-    "comments": "sdo:comment",
-    "filename": "sdo:url"
+    "filename": "sdo:description"
   }
 }

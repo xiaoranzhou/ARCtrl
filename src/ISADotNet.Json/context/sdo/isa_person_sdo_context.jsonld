@@ -12,6 +12,7 @@
     
     "??": "sdo:??",
     "affiliations": "sdo:affiliation",
-    "roles": "sdo:roleName"
+    "roles": "sdo:roleName",
+    "comments": "sdo:disambiguatingDescription"
   }
 }

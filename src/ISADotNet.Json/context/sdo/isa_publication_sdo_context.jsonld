@@ -9,6 +9,6 @@
     "authorList": "sdo:author",
 
     "??": "sdo:??",
-    "comments": "sdo:comment"
+    "comments": "sdo:disambiguatingDescription"
   }
 }

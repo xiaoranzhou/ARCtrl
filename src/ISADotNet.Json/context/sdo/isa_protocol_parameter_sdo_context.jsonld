@@ -4,7 +4,7 @@
     "ProtocolParameter": "sdo:PropertyValue",
     "parameterName": "sdo:name",
     "type": "sdo:hasCategoryCode",
-    "comments": "sdo:comment"
+    "comments": "sdo:disambiguatingDescription"
   }
 }
 

@@ -5,6 +5,6 @@
     "identifier": "sdo:identifier",
     "factorName": "sdo:name",
     "factorType": "sdo:hasCategoryCode",
-    "comments": "sdo:comment"
+    "comments": "sdo:disambiguatingDescription"
   }
 }
