@@ -21,7 +21,7 @@ module ProtocolParameter =
         [
             if options.SetID then "@id", GEncode.string (oa :?> ProtocolParameter |> genID)
                 else tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
-            if options.IncludeType then "@type", GEncode.string "ProtocolParameter"
+            if options.IncludeType then "@type", ([GEncode.string "ProtocolParameter"; GEncode.string "ArcProtocolParameter"] |> Encode.list)
             tryInclude "parameterName" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "ParameterName")
         ]
         |> GEncode.choose
@@ -68,12 +68,12 @@ module Component =
     let encoder (options : ConverterOptions) (oa : obj) = 
         [
             if options.SetID then "@id", GEncode.string (oa :?> Component |> genID)
-            if options.IncludeType then "@type", GEncode.string "Component"
+            if options.IncludeType then "@type", ([GEncode.string "Component"; GEncode.string "ArcComponent"] |> Encode.list)
             tryInclude "componentName" GEncode.string (oa |> tryGetPropertyValue "ComponentName")
             tryInclude "componentType" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "ComponentType")
         ]
         |> GEncode.choose
-        // |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_component_sdo_context.jsonld")).GetValue("@context"))] else [])
+        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_component_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<Component> =
@@ -132,7 +132,7 @@ module Protocol =
         [
             if options.SetID then "@id", GEncode.string (oa :?> Protocol |> genID)
                 else tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
-            if options.IncludeType then "@type", GEncode.string "Protocol"
+            if options.IncludeType then "@type", ([GEncode.string "Protocol"; GEncode.string "ArcProtocol"] |> Encode.list)
             tryInclude "name" GEncode.string (oa |> tryGetPropertyValue "Name")
             tryInclude "protocolType" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "ProtocolType")
             tryInclude "description" GEncode.string (oa |> tryGetPropertyValue "Description")

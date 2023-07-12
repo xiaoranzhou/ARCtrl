@@ -7,8 +7,6 @@
     "title": "sdo:headline",
     "status": "sdo:creativeWorkStatus",
     "authorList": "sdo:author",
-
-    "??": "sdo:??",
     "comments": "sdo:disambiguatingDescription"
   }
 }

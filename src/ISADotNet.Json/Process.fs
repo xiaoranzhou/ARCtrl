@@ -167,7 +167,7 @@ module Process =
         [
             if options.SetID then "@id", GEncode.string (oa :?> Process |> genID)
                 else tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
-            if options.IncludeType then "@type", GEncode.string "Process"
+            if options.IncludeType then "@type", ([GEncode.string "Process"; GEncode.string "ArcProcess"] |> Encode.list)
             tryInclude "name" GEncode.string (oa |> tryGetPropertyValue "Name")
             tryInclude "executesProtocol" (Protocol.encoder options) (oa |> tryGetPropertyValue "ExecutesProtocol")
             tryInclude "parameterValues" (ProcessParameterValue.encoder options) (oa |> tryGetPropertyValue "ParameterValues")

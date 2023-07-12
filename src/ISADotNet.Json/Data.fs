@@ -47,7 +47,7 @@ module Data =
         [
             if options.SetID then "@id", GEncode.string (oa :?> Data |> genID)
                 else tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
-            if options.IncludeType then "@type", GEncode.string "Data"
+            if options.IncludeType then "@type", ([GEncode.string "Data"; GEncode.string "ArcData"] |> Encode.list)
             tryInclude "name" GEncode.string (oa |> tryGetPropertyValue "Name")
             tryInclude "type" (DataFile.encoder options) (oa |> tryGetPropertyValue "DataType")
             tryInclude "comments" (Comment.encoder options) (oa |> tryGetPropertyValue "Comments")
@@ -109,7 +109,7 @@ module Source =
         [
             if options.SetID then "@id", GEncode.string (oa :?> Source |> genID)
                 else tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
-            if options.IncludeType then "@type", GEncode.string "Source"
+            if options.IncludeType then "@type", ([GEncode.string "Source"; GEncode.string "ArcSource"] |> Encode.list)
             tryInclude "name" GEncode.string (oa |> tryGetPropertyValue "Name")
             tryInclude "characteristics" (MaterialAttributeValue.encoder options) (oa |> tryGetPropertyValue "Characteristics")        ]
         |> GEncode.choose
@@ -166,7 +166,7 @@ module Sample =
         [
             if options.SetID then "@id", GEncode.string (oa :?> Sample |> genID)
                 else tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
-            if options.IncludeType then "@type", GEncode.string "Sample"
+            if options.IncludeType then "@type", ([GEncode.string "Sample"; GEncode.string "ArcSample"] |> Encode.list)
             tryInclude "name" GEncode.string (oa |> tryGetPropertyValue "Name")
             tryInclude "characteristics" (MaterialAttributeValue.encoder options) (oa |> tryGetPropertyValue "Characteristics")
             tryInclude "factorValues" (FactorValue.encoder options) (oa |> tryGetPropertyValue "FactorValues")

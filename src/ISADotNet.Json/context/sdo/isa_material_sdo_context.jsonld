@@ -1,12 +1,12 @@
 {
   "@context": {
     "sdo": "http://schema.org/",
-    "Material": "sdo:Product",
-    "type": "sdo:type",
-    "identifier": "sdo:identifier",
-    "name": "sdo:name",
-    "characteristics": "sdo:Property",
-    "roles": "sdo:potentialAction",
-    "derivesFrom": "sdo:isRelatedTo"
+    "arc": "https://github.com/nfdi4plants/ARC_ontology/blob/main/ARC_v1.1.owl/",
+    "ArcMaterial": "arc:material",
+    "Material": "sdo:Thing",
+    "type": "arc:material_type",
+    "name": "arc:name",
+    "characteristics": "arc:has_characteristic",
+    "derivesFrom": "arc:derives_from"
   }
 }

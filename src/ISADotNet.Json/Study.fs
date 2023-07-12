@@ -47,7 +47,7 @@ module Study =
         [
             if options.SetID then "@id", GEncode.string (oa :?> Study |> genID)
                 else tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
-            if options.IncludeType then "@type", GEncode.string "Study"
+            if options.IncludeType then "@type", ([GEncode.string "Study"; GEncode.string "ArcStudy"] |> Encode.list)
             tryInclude "filename" GEncode.string (oa |> tryGetPropertyValue "FileName")
             tryInclude "identifier" GEncode.string (oa |> tryGetPropertyValue "Identifier")
             tryInclude "title" GEncode.string (oa |> tryGetPropertyValue "Title")

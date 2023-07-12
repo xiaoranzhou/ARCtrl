@@ -39,7 +39,7 @@ module MaterialAttribute =
         [
             if options.SetID then "@id", GEncode.string (oa :?> MaterialAttribute |> genID)
                 else tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
-            if options.IncludeType then "@type", GEncode.string "MaterialAttribute"
+            if options.IncludeType then "@type", ([GEncode.string "MaterialAttribute"; GEncode.string "ArcMaterialAttribute"] |> Encode.list)
             tryInclude "characteristicType" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "CharacteristicType")
         ]
         |> GEncode.choose
@@ -87,7 +87,7 @@ module MaterialAttributeValue =
         [
             if options.SetID then "@id", GEncode.string (oa :?> MaterialAttributeValue |> genID)
                 else tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
-            if options.IncludeType then "@type", GEncode.string "MaterialAttributeValue"
+            if options.IncludeType then "@type", ([GEncode.string "MaterialAttributeValue"; GEncode.string "ArcMaterialAttributeValue"] |> Encode.list)
             tryInclude "category" (MaterialAttribute.encoder options) (oa |> tryGetPropertyValue "Category")
             tryInclude "value" (Value.encoder options) (oa |> tryGetPropertyValue "Value")
             tryInclude "unit" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "Unit")
@@ -142,7 +142,7 @@ module Material =
         [
             if options.SetID then "@id", GEncode.string (oa :?> Material |> genID)
                 else tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
-            if options.IncludeType then "@type", GEncode.string "Material"
+            if options.IncludeType then "@type", ([GEncode.string "Material"; GEncode.string "ArcMaterial"] |> Encode.list)
             tryInclude "name" GEncode.string (oa |> tryGetPropertyValue "Name")
             tryInclude "type" (MaterialType.encoder options) (oa |> tryGetPropertyValue "MaterialType")
             tryInclude "characteristics" (MaterialAttributeValue.encoder options) (oa |> tryGetPropertyValue "Characteristics")

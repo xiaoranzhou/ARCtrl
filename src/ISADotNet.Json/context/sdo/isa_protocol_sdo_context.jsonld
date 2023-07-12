@@ -1,16 +1,16 @@
 {
   "@context": {
     "sdo": "http://schema.org/",
-    "Protocol": "sdo:HowTo",
-    "filename": "sdo:distribution",
-    "identifier": "sdo:identifier",
-    "title": "sdo:headline",
-    "description": "sdo:description",
-    "version": "sdo:version",
-    "components": "sdo:instrument",
-    "parameters": "sdo:PropertyValue",
-    "uri": "sdo:url",
-    "publications": "sdo:citation",
-    "comments": "sdo:disambiguatingDescription"
+    "arc": "https://github.com/nfdi4plants/ARC_ontology/blob/main/ARC_v1.1.owl/",
+    "Protocol": "sdo:Thing",
+    "ArcProtocol": "arc:protocol",
+    "name": "arc:name",
+    "protocolType": "arc:has_protocol_type",
+    "description": "arc:description",
+    "version": "arc:version",
+    "components": "arc:has_component",
+    "parameters": "arc:has_parameter",
+    "uri": "arc:URI",
+    "comments": "arc:has_comment"
   }
 }

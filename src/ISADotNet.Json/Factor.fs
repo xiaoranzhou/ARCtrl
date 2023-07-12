@@ -66,7 +66,7 @@ module Factor =
         [
             if options.SetID then "@id", GEncode.string (oa :?> Factor |> genID)
                 else tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
-            if options.IncludeType then "@type", GEncode.string "Factor"
+            if options.IncludeType then "@type", ([GEncode.string "Factor"; GEncode.string "ArcFactor"] |> Encode.list)
             tryInclude "factorName" GEncode.string (oa |> tryGetPropertyValue "Name")
             tryInclude "factorType" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "FactorType")
             tryInclude "comments" (Comment.encoder options) (oa |> tryGetPropertyValue "Comments")
@@ -119,7 +119,7 @@ module FactorValue =
         [
             if options.SetID then "@id", GEncode.string (oa :?> FactorValue |> genID)
                 else tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
-            if options.IncludeType then "@type", GEncode.string "FactorValue"
+            if options.IncludeType then "@type", ([GEncode.string "FactorValue"; GEncode.string "ArcFactorValue"] |> Encode.list)
             tryInclude "category" (Factor.encoder options) (oa |> tryGetPropertyValue "Category")
             tryInclude "value" (Value.encoder options) (oa |> tryGetPropertyValue "Value")
             tryInclude "unit" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "Unit")

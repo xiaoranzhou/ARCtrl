@@ -32,6 +32,19 @@ module Person =
                                 | (Some fn,None,None) -> "#" + fn.Replace(" ","_")
                                 | _ -> "#EmptyPerson"
 
+    let affiliationEncoder (options : ConverterOptions) (affiliation : obj) =
+        if options.IsRoCrate then
+            [
+                ("@type",GEncode.string "Organization")
+                ("@id",GEncode.string $"Organization/{affiliation}")
+                ("name",GEncode.string affiliation)
+                if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_organization_sdo_context.jsonld")).GetValue("@context"))
+
+            ]
+            |> Encode.object
+        else
+            GEncode.string affiliation
+
     let rec encoder (options : ConverterOptions) (oa : obj) = 
         [
             if options.SetID then "@id", GEncode.string (oa :?> Person |> genID)
@@ -44,12 +57,12 @@ module Person =
             tryInclude "phone" GEncode.string (oa |> tryGetPropertyValue "Phone")
             tryInclude "fax" GEncode.string (oa |> tryGetPropertyValue "Fax")
             tryInclude "address" GEncode.string (oa |> tryGetPropertyValue "Address")
-            tryInclude "affiliation" GEncode.string (oa |> tryGetPropertyValue "Affiliation")
+            tryInclude "affiliation" (affiliationEncoder options) (oa |> tryGetPropertyValue "Affiliation")
             tryInclude "roles" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "Roles")
             tryInclude "comments" (Comment.encoder options) (oa |> tryGetPropertyValue "Comments")
+            if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_person_sdo_context.jsonld")).GetValue("@context"))
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_person_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<Person> =

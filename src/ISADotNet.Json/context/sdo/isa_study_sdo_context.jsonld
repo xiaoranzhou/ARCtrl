@@ -1,7 +1,9 @@
 {
   "@context": {
     "sdo": "http://schema.org/",
+    "arc": "https://github.com/nfdi4plants/ARC_ontology/blob/main/ARC_v1.1.owl/",
     "Study": "sdo:Dataset",
+    "ArcStudy": "arc:study",
     "identifier": "sdo:identifier",
     "title": "sdo:headline",
     "description": "sdo:description",
@@ -10,19 +12,19 @@
     "publications": "sdo:citation",
     "people": "sdo:creator",
     "assays": "sdo:hasPart",
-
-    "??": "sdo:??",
     "filename": "sdo:description",
     "comments": "sdo:disambiguatingDescription",
-    "protocols": "sdo:protocol?",
-    "materials": "sdo:material?",
-    "otherMaterials": "sdo:material?",
-    "sources": "sdo:source?",
-    "samples": "sdo:sample?",
-    "processSequence": "sdo:process?",
-    "factors": "sdo:factor?",
-    "characteristicCategories": "sdo:characteristic?",
-    "unitCategories": "sdo:unit?",
-    "studyDesignDescriptors": "sdo:trialDesign"
+
+    "??": "sdo:??",
+    "protocols": "arc:has_protocol",
+    "materials": "arc:has_study_material",
+    "otherMaterials": "arc:has_study_material",
+    "sources": "arc:has_study_material",
+    "samples": "arc:has_study_material",
+    "processSequence": "arc:has_process_sequence",
+    "factors": "arc:has_factor",
+    "characteristicCategories": "arc:has_characteristic_category",
+    "unitCategories": "arc:has_unit_category",
+    "studyDesignDescriptors": "arc:has_study_design_descriptor"
   }
 }

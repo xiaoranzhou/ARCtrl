@@ -9,10 +9,8 @@
     "address": "sdo:address",
     "phone": "sdo:telephone",
     "fax": "sdo:faxNumber",
-    
-    "??": "sdo:??",
-    "affiliations": "sdo:affiliation",
-    "roles": "sdo:roleName",
-    "comments": "sdo:disambiguatingDescription"
+    "comments": "sdo:disambiguatingDescription",
+    "roles": "sdo:jobTitle",
+    "affiliation": "sdo:affiliation"
   }
 }

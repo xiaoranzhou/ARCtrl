@@ -38,10 +38,11 @@ module Assay =
                   | None -> "#EmptyAssay"
 
     let encoder (options : ConverterOptions) (oa : obj) = 
+        let a = ["Assay";"ArcAssay"]
         [
             if options.SetID then "@id", GEncode.string (oa :?> Assay |> genID)
                 else tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
-            if options.IncludeType then "@type", GEncode.string "Assay"
+            if options.IncludeType then "@type", ([GEncode.string "Assay"; GEncode.string "ArcAssay"] |> Encode.list)
             tryInclude "filename" GEncode.string (oa |> tryGetPropertyValue "FileName")
             tryInclude "measurementType" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "MeasurementType")
             tryInclude "technologyType" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "TechnologyType")
