@@ -70,9 +70,9 @@ module Factor =
             tryInclude "factorName" GEncode.string (oa |> tryGetPropertyValue "Name")
             tryInclude "factorType" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "FactorType")
             tryInclude "comments" (Comment.encoder options) (oa |> tryGetPropertyValue "Comments")
+            if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.Factor.context).GetValue("@context"))
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_factor_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<Factor> =
@@ -123,9 +123,9 @@ module FactorValue =
             tryInclude "category" (Factor.encoder options) (oa |> tryGetPropertyValue "Category")
             tryInclude "value" (Value.encoder options) (oa |> tryGetPropertyValue "Value")
             tryInclude "unit" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "Unit")
+            if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.FactorValue.context).GetValue("@context"))
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_factor_value_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<FactorValue> =

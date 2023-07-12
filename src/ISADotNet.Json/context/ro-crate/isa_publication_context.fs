@@ -1,13 +1,19 @@
+namespace ISADotNet.Json.ROCrateContext
+
+module Publication =
+
+  let context =
+  """
 {
   "@context": {
     "sdo": "http://schema.org/",
     "Publication": "sdo:ScholarlyArticle",
-    "identifier": "sdo:identifier",
     "pubMedID": "sdo:url",
     "doi": "sdo:sameAs",
-    "title": "sdo:Periodical",
+    "title": "sdo:headline",
     "status": "sdo:creativeWorkStatus",
     "authorList": "sdo:author",
-    "comments": "sdo:Comment"
+    "comments": "sdo:disambiguatingDescription"
   }
 }
+  """

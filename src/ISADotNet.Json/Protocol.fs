@@ -23,9 +23,9 @@ module ProtocolParameter =
                 else tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
             if options.IncludeType then "@type", ([GEncode.string "ProtocolParameter"; GEncode.string "ArcProtocolParameter"] |> Encode.list)
             tryInclude "parameterName" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "ParameterName")
+            if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.ProtocolParameter.context).GetValue("@context"))
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_protocol_parameter_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<ProtocolParameter> =
@@ -71,9 +71,9 @@ module Component =
             if options.IncludeType then "@type", ([GEncode.string "Component"; GEncode.string "ArcComponent"] |> Encode.list)
             tryInclude "componentName" GEncode.string (oa |> tryGetPropertyValue "ComponentName")
             tryInclude "componentType" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "ComponentType")
+            if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.Component.context).GetValue("@context"))
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_component_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<Component> =
@@ -141,9 +141,9 @@ module Protocol =
             tryInclude "parameters" (ProtocolParameter.encoder options) (oa |> tryGetPropertyValue "Parameters")
             tryInclude "components" (Component.encoder options) (oa |> tryGetPropertyValue "Components")
             tryInclude "comments" (Comment.encoder options) (oa |> tryGetPropertyValue "Comments")
+            if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.Protocol.context).GetValue("@context"))
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_protocol_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<Protocol> =

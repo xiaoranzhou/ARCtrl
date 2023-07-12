@@ -1,3 +1,9 @@
+namespace ISADotNet.Json.ROCrateContext
+
+module ROCrate =
+
+  let context =
+  """
 {
   "@context": {
     "sdo": "http://schema.org/",
@@ -6,3 +12,4 @@
     "conformsTo": "sdo:conformsTo"
   }
 }
+  """

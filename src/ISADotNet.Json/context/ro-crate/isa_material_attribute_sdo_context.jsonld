@@ -1,7 +1,0 @@
-{
-  "@context": {
-    "sdo": "http://schema.org/",
-    "MaterialAttribute": "sdo:Property",
-    "characteristicType": "sdo:property"
-  }
-}

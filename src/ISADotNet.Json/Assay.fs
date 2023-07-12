@@ -65,9 +65,9 @@ module Assay =
             tryInclude "unitCategories" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "UnitCategories")
             tryInclude "processSequence" (Process.encoder options) (oa |> tryGetPropertyValue "ProcessSequence")
             tryInclude "comments" (Comment.encoder options) (oa |> tryGetPropertyValue "Comments")
+            if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ISADotNet.Json.ROCrateContext.Assay.context).GetValue("@context"))
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_assay_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<Assay> =

@@ -30,9 +30,9 @@ module Publication =
             tryInclude "title" GEncode.string (oa |> tryGetPropertyValue "Title")
             tryInclude "status" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "Status")
             tryInclude "comments" (Comment.encoder options) (oa |> tryGetPropertyValue "Comments")
+            if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.Publication.context).GetValue("@context"))
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_publication_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let rec decoder (options : ConverterOptions) : Decoder<Publication> =

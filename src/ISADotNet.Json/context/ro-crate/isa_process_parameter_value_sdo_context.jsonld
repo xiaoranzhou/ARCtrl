@@ -1,9 +1,0 @@
-{
-  "@context": {
-    "sdo": "http://schema.org/",
-    "ParameterValue": "sdo:PropertyValue",
-    "category": "sdo:",
-    "value": "sdo:value",
-    "unit": "sdo:unitCode"
-  }
-}

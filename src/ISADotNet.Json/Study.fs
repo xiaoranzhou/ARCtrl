@@ -83,9 +83,9 @@ module Study =
             tryInclude "characteristicCategories" (MaterialAttribute.encoder options) (oa |> tryGetPropertyValue "CharacteristicCategories")            
             tryInclude "unitCategories" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "UnitCategories")
             tryInclude "comments" (Comment.encoder options) (oa |> tryGetPropertyValue "Comments")
+            if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.Study.context).GetValue("@context"))
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_study_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<Study> =

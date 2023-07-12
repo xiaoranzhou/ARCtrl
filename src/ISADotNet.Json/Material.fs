@@ -41,9 +41,9 @@ module MaterialAttribute =
                 else tryInclude "@id" GEncode.string (oa |> tryGetPropertyValue "ID")
             if options.IncludeType then "@type", ([GEncode.string "MaterialAttribute"; GEncode.string "ArcMaterialAttribute"] |> Encode.list)
             tryInclude "characteristicType" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "CharacteristicType")
+            if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.MaterialAttribute.context).GetValue("@context"))
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_material_attribute_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<MaterialAttribute> =
@@ -91,9 +91,9 @@ module MaterialAttributeValue =
             tryInclude "category" (MaterialAttribute.encoder options) (oa |> tryGetPropertyValue "Category")
             tryInclude "value" (Value.encoder options) (oa |> tryGetPropertyValue "Value")
             tryInclude "unit" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "Unit")
+            if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.MaterialAttributeValue.context).GetValue("@context"))
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_material_attribute_value_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<MaterialAttributeValue> =
@@ -147,9 +147,9 @@ module Material =
             tryInclude "type" (MaterialType.encoder options) (oa |> tryGetPropertyValue "MaterialType")
             tryInclude "characteristics" (MaterialAttributeValue.encoder options) (oa |> tryGetPropertyValue "Characteristics")
             tryInclude "derivesFrom" (encoder options) (oa |> tryGetPropertyValue "DerivesFrom")
+            if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.Material.context).GetValue("@context"))
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_material_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let rec decoder (options : ConverterOptions) : Decoder<Material> =

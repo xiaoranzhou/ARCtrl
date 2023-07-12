@@ -40,10 +40,9 @@ module Investigation =
             tryInclude "people" (Person.encoder options) (oa |> tryGetPropertyValue "Contacts")
             tryInclude "studies" (Study.encoder options) (oa |> tryGetPropertyValue "Studies")
             tryInclude "comments" (Comment.encoder options) (oa |> tryGetPropertyValue "Comments")
+            if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.Investigation.context).GetValue("@context"))
         ]
         |> GEncode.choose
-        // |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/isa-api/isatools/resources/json-context/sdo/isa_investigation_sdo_context.jsonld")).GetValue("@context"))] else [])
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_investigation_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let encodeRoCrate (options : ConverterOptions) (oa : obj) = 
@@ -54,7 +53,7 @@ module Investigation =
         ]
         |> GEncode.choose
         |> List.append ([("conformsTo",Newtonsoft.Json.Linq.JObject.Parse("{\"@id\": \"https://w3id.org/ro/crate/1.1\"}"))])
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/rocrate_context.jsonld")).GetValue("@context"))] else [])
+        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.ROCrate.context).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<Investigation> =

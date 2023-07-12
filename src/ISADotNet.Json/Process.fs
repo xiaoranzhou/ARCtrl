@@ -24,9 +24,9 @@ module ProcessParameterValue =
             tryInclude "category" (ProtocolParameter.encoder options) (oa |> tryGetPropertyValue "Category")
             tryInclude "value" (Value.encoder options) (oa |> tryGetPropertyValue "Value")
             tryInclude "unit" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "Unit")
+            if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.ProcessParameterValue.context).GetValue("@context"))
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_process_parameter_value_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<ProcessParameterValue> =
@@ -178,9 +178,9 @@ module Process =
             tryInclude "inputs" (ProcessInput.encoder options) (oa |> tryGetPropertyValue "Inputs")
             tryInclude "outputs" (ProcessOutput.encoder options) (oa |> tryGetPropertyValue "Outputs")
             tryInclude "comments" (Comment.encoder options) (oa |> tryGetPropertyValue "Comments")
+            if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.Process.context).GetValue("@context"))
         ]
         |> GEncode.choose
-        |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_process_sdo_context.jsonld")).GetValue("@context"))] else [])
         |> Encode.object
 
     let rec decoder (options : ConverterOptions) : Decoder<Process> =

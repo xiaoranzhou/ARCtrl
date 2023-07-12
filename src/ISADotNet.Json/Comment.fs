@@ -34,9 +34,9 @@ module Comment =
                 if options.IncludeType then "@type", GEncode.string "Comment"
                 tryInclude "name" GEncode.string (comment |> tryGetPropertyValue "Name")
                 tryInclude "value" GEncode.string (comment |> tryGetPropertyValue "Value")
+                if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.Comment.context).GetValue("@context"))
             ]
             |> GEncode.choose
-            |> List.append (if options.IncludeContext then [("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_comment_sdo_context.jsonld")).GetValue("@context"))] else [])
             |> Encode.object
 
     let decoder (options : ConverterOptions) : Decoder<Comment> =

@@ -1,8 +1,13 @@
+namespace ISADotNet.Json.ROCrateContext
+
+module Person =
+
+  let context =
+  """
 {
   "@context": {
     "sdo": "http://schema.org/",
     "Person": "sdo:Person",
-    "identifier": "sdo:identifier",
     "firstName": "sdo:givenName",
     "lastName": "sdo:familyName",
     "midInitials": "sdo:additionalName",
@@ -10,7 +15,9 @@
     "address": "sdo:address",
     "phone": "sdo:telephone",
     "fax": "sdo:faxNumber",
-    "affiliations": "sdo:affiliation",
-    "roles": "sdo:roleName"
+    "comments": "sdo:disambiguatingDescription",
+    "roles": "sdo:jobTitle",
+    "affiliation": "sdo:affiliation"
   }
 }
+  """

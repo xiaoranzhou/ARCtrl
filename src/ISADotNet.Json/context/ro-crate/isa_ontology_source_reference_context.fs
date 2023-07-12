@@ -1,3 +1,9 @@
+namespace ISADotNet.Json.ROCrateContext
+
+module OntologySourceReference =
+
+  let context =
+  """
 {
   "@context": {
     "sdo": "http://schema.org/",
@@ -8,6 +14,7 @@
     "name": "sdo:name",
     "file": "sdo:url",
     "version": "sdo:version",
-    "comments": "sdo:comment"
+    "comments": "sdo:disambiguatingDescription"
   }
 }
+  """

@@ -1,7 +1,0 @@
-{
-  "@context": {
-    "sdo": "http://schema.org/",
-    "name": "sdo:name",
-    "value": "sdo:value"
-  }
-}

@@ -52,6 +52,7 @@ module OntologySourceReference =
             tryInclude "name" GEncode.string (osr |> tryGetPropertyValue "Name")
             tryInclude "version" GEncode.string (osr |> tryGetPropertyValue "Version")
             tryInclude "comments" (Comment.encoder options) (osr |> tryGetPropertyValue "Comments")
+            if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.OntologySourceReference.context).GetValue("@context"))
         ]
         |> GEncode.choose
         |> Encode.object
@@ -109,6 +110,7 @@ module OntologyAnnotation =
             tryInclude "termSource" GEncode.string (oa |> tryGetPropertyValue "TermSourceREF")
             tryInclude "termAccession" GEncode.string (oa |> tryGetPropertyValue "TermAccessionNumber")
             tryInclude "comments" (Comment.encoder options) (oa |> tryGetPropertyValue "Comments")
+            if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.OntologyAnnotation.context).GetValue("@context"))
         ]
         |> GEncode.choose
         |> Encode.object
