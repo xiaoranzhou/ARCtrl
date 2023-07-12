@@ -38,7 +38,7 @@ module Person =
                 ("@type",GEncode.string "Organization")
                 ("@id",GEncode.string $"Organization/{affiliation}")
                 ("name",GEncode.string affiliation)
-                if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.Person.context).GetValue("@context"))
+                if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.Organization.context).GetValue("@context"))
             ]
             |> Encode.object
         else
@@ -59,7 +59,7 @@ module Person =
             tryInclude "affiliation" (affiliationEncoder options) (oa |> tryGetPropertyValue "Affiliation")
             tryInclude "roles" (OntologyAnnotation.encoder options) (oa |> tryGetPropertyValue "Roles")
             tryInclude "comments" (Comment.encoder options) (oa |> tryGetPropertyValue "Comments")
-            if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText("/home/wetzels/arc/ISADotNet_public/src/ISADotNet.Json/context/sdo/isa_person_sdo_context.jsonld")).GetValue("@context"))
+            if options.IncludeContext then ("@context",Newtonsoft.Json.Linq.JObject.Parse(ROCrateContext.Person.context).GetValue("@context"))
         ]
         |> GEncode.choose
         |> Encode.object
