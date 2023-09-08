@@ -56,7 +56,7 @@ let private test_isaFromContracts = testList "read_contracts" [
         let aContract = TestObjects.ISAContracts.SimpleISA.assayReadContract
         let arc = ARC()
         arc.SetISAFromContracts([|iContract; sContract; aContract|])
-        Expect.isSome arc.ISA "isa should be fille out"
+        Expect.isSome arc.ISA "isa should be filled out"
         let inv = arc.ISA.Value
         Expect.equal inv.Identifier TestObjects.Investigation.investigationIdentifier "investigation identifier should have been read from investigation contract"
 
@@ -101,7 +101,7 @@ let private test_writeContracts = testList "write_contracts" [
         let arc = ARC(isa = inv)
         let contracts = arc.GetWriteContracts()
         let contractPathsString = contracts |> Array.map (fun c -> c.Path) |> String.concat ", "
-        Expect.equal contracts.Length 13 $"Should contain exactly as much contracts as base folders but contained: {contractPathsString}"
+        Expect.equal contracts.Length 13 $"Should contain more contracts as base folders but contained: {contractPathsString}"
 
         // Base 
         Expect.exists contracts (fun c -> c.Path = "workflows/.gitkeep") "Contract for workflows folder missing"
@@ -126,10 +126,132 @@ let private test_writeContracts = testList "write_contracts" [
         Expect.exists contracts (fun c -> c.Path = "assays/MyAssay/isa.assay.xlsx" && c.DTOType.IsSome && c.DTOType.Value = Contract.DTOType.ISA_Assay) "assay file exisiting but has wrong DTO type"
 
     )
+    testCase "sameAssayAndStudyName" (fun _ ->
+        let inv = ArcInvestigation("MyInvestigation", "BestTitle")
+        inv.InitStudy("MyAssay").InitAssay("MyAssay") |> ignore
+        let arc = ARC(isa = inv)
+        let contracts = arc.GetWriteContracts()
+        let contractPathsString = contracts |> Array.map (fun c -> c.Path) |> String.concat ", "
+        Expect.equal contracts.Length 13 $"Should contain more contracts as base folders but contained: {contractPathsString}"
+
+        // Base 
+        Expect.exists contracts (fun c -> c.Path = "workflows/.gitkeep") "Contract for workflows folder missing"
+        Expect.exists contracts (fun c -> c.Path = "runs/.gitkeep") "Contract for runs folder missing"
+        Expect.exists contracts (fun c -> c.Path = "assays/.gitkeep") "Contract for assays folder missing"
+        Expect.exists contracts (fun c -> c.Path = "studies/.gitkeep") "Contract for studies folder missing"
+        Expect.exists contracts (fun c -> c.Path = "isa.investigation.xlsx") "Contract for investigation folder missing"
+        Expect.exists contracts (fun c -> c.Path = "isa.investigation.xlsx" && c.DTOType.IsSome && c.DTOType.Value = Contract.DTOType.ISA_Investigation) "Contract for investigation exisiting but has wrong DTO type"
+
+        // Study folder
+        Expect.exists contracts (fun c -> c.Path = "studies/MyAssay/README.md") "study readme missing"
+        Expect.exists contracts (fun c -> c.Path = "studies/MyAssay/protocols/.gitkeep") "study protocols folder missing"
+        Expect.exists contracts (fun c -> c.Path = "studies/MyAssay/resources/.gitkeep") "study resources folder missing"
+        Expect.exists contracts (fun c -> c.Path = "studies/MyAssay/isa.study.xlsx") "study file missing"
+        Expect.exists contracts (fun c -> c.Path = "studies/MyAssay/isa.study.xlsx" && c.DTOType.IsSome && c.DTOType.Value = Contract.DTOType.ISA_Study) "study file exisiting but has wrong DTO type"
+
+        // Assay folder
+        Expect.exists contracts (fun c -> c.Path = "assays/MyAssay/README.md") "assay readme missing"
+        Expect.exists contracts (fun c -> c.Path = "assays/MyAssay/protocols/.gitkeep") "assay protocols folder missing"
+        Expect.exists contracts (fun c -> c.Path = "assays/MyAssay/dataset/.gitkeep") "assay dataset folder missing"
+        Expect.exists contracts (fun c -> c.Path = "assays/MyAssay/isa.assay.xlsx") "assay file missing"
+        Expect.exists contracts (fun c -> c.Path = "assays/MyAssay/isa.assay.xlsx" && c.DTOType.IsSome && c.DTOType.Value = Contract.DTOType.ISA_Assay) "assay file exisiting but has wrong DTO type"
+
+        // Assay file and Study file Contract should be distinct
+        let assayDTOType,assayDTO = contracts |> Array.pick (fun c -> if c.Path = "assays/MyAssay/isa.assay.xlsx" then Some (c.DTOType.Value,c.DTO.Value) else None)
+        let studyDTOType,studyDTO = contracts |> Array.pick (fun c -> if c.Path = "studies/MyAssay/isa.study.xlsx" then Some (c.DTOType.Value,c.DTO.Value) else None)
+        Expect.equal assayDTOType Contract.DTOType.ISA_Assay "DTOType of assay file should be assay file"
+        Expect.equal studyDTOType Contract.DTOType.ISA_Study "DTOType of study file should be study file"
+        Expect.equal assayDTO assayDTO "Check that same object should equal to itself"
+        Expect.notEqual assayDTO studyDTO "assay and study DTO should differ"   
+    )
+    testCase "sameAssayInDifferentStudies" (fun _ ->
+        let inv = ArcInvestigation("MyInvestigation", "BestTitle")
+        let assay = ArcAssay("MyAssay")
+        inv.InitStudy("Study1").AddAssay(assay) |> ignore
+        inv.InitStudy("Study2").AddAssay(assay) |> ignore
+        let arc = ARC(isa = inv)
+        let contracts = arc.GetWriteContracts()
+        let contractPathsString = contracts |> Array.map (fun c -> c.Path) |> String.concat ", "
+        Expect.equal contracts.Length 17 $"Should contain more contracts as base folders but contained: {contractPathsString}"
+
+        // Base 
+        Expect.exists contracts (fun c -> c.Path = "workflows/.gitkeep") "Contract for workflows folder missing"
+        Expect.exists contracts (fun c -> c.Path = "runs/.gitkeep") "Contract for runs folder missing"
+        Expect.exists contracts (fun c -> c.Path = "assays/.gitkeep") "Contract for assays folder missing"
+        Expect.exists contracts (fun c -> c.Path = "studies/.gitkeep") "Contract for studies folder missing"
+        Expect.exists contracts (fun c -> c.Path = "isa.investigation.xlsx") "Contract for investigation folder missing"
+        Expect.exists contracts (fun c -> c.Path = "isa.investigation.xlsx" && c.DTOType.IsSome && c.DTOType.Value = Contract.DTOType.ISA_Investigation) "Contract for investigation exisiting but has wrong DTO type"
+
+        // Study folder
+        Expect.exists contracts (fun c -> c.Path = "studies/Study1/README.md") "study readme missing"
+        Expect.exists contracts (fun c -> c.Path = "studies/Study1/protocols/.gitkeep") "study protocols folder missing"
+        Expect.exists contracts (fun c -> c.Path = "studies/Study1/resources/.gitkeep") "study resources folder missing"
+        Expect.exists contracts (fun c -> c.Path = "studies/Study1/isa.study.xlsx") "study file missing"
+        Expect.exists contracts (fun c -> c.Path = "studies/Study1/isa.study.xlsx" && c.DTOType.IsSome && c.DTOType.Value = Contract.DTOType.ISA_Study) "study file exisiting but has wrong DTO type"
+
+        // Study folder
+        Expect.exists contracts (fun c -> c.Path = "studies/Study2/README.md") "study readme missing"
+        Expect.exists contracts (fun c -> c.Path = "studies/Study2/protocols/.gitkeep") "study protocols folder missing"
+        Expect.exists contracts (fun c -> c.Path = "studies/Study2/resources/.gitkeep") "study resources folder missing"
+        Expect.exists contracts (fun c -> c.Path = "studies/Study2/isa.study.xlsx") "study file missing"
+        Expect.exists contracts (fun c -> c.Path = "studies/Study2/isa.study.xlsx" && c.DTOType.IsSome && c.DTOType.Value = Contract.DTOType.ISA_Study) "study file exisiting but has wrong DTO type"
+
+        // Assay folder
+        Expect.exists contracts (fun c -> c.Path = "assays/MyAssay/README.md") "assay readme missing"
+        Expect.exists contracts (fun c -> c.Path = "assays/MyAssay/protocols/.gitkeep") "assay protocols folder missing"
+        Expect.exists contracts (fun c -> c.Path = "assays/MyAssay/dataset/.gitkeep") "assay dataset folder missing"
+        Expect.exists contracts (fun c -> c.Path = "assays/MyAssay/isa.assay.xlsx") "assay file missing"
+        Expect.exists contracts (fun c -> c.Path = "assays/MyAssay/isa.assay.xlsx" && c.DTOType.IsSome && c.DTOType.Value = Contract.DTOType.ISA_Assay) "assay file exisiting but has wrong DTO type"
+    )
+
+]
+
+let private test_updateFileSystem = testList "update_Filesystem" [
+    testCase "empty noChanges" (fun () ->
+        let arc = ARC()
+        let oldFS = arc.FileSystem.Copy()
+        arc.UpdateFileSystem()
+        let newFS = arc.FileSystem
+        Expect.equal oldFS.Tree newFS.Tree "Tree should be equal"
+    )
+    testCase "empty addInvestigationWithStudy" (fun () ->
+        let arc = ARC()
+        let oldFS = arc.FileSystem.Copy()
+        let study = ArcStudy("MyStudy")
+        let inv = ArcInvestigation("MyInvestigation")
+        inv.AddStudy(study)
+        arc.ISA <- Some (inv)
+        arc.UpdateFileSystem()
+        let newFS = arc.FileSystem
+        Expect.notEqual oldFS.Tree newFS.Tree "Tree should be unequal"
+    )
+    testCase "simple noChanges" (fun () ->
+        let study = ArcStudy("MyStudy")
+        let inv = ArcInvestigation("MyInvestigation")
+        inv.AddStudy(study)
+        let arc = ARC(isa = inv)
+        let oldFS = arc.FileSystem.Copy()   
+        arc.UpdateFileSystem()
+        let newFS = arc.FileSystem
+        Expect.equal oldFS.Tree newFS.Tree "Tree should be equal"
+    )
+    testCase "simple addAssayToStudy" (fun () ->
+        let study = ArcStudy("MyStudy")
+        let inv = ArcInvestigation("MyInvestigation")
+        inv.AddStudy(study)
+        let arc = ARC(isa = inv)
+        let oldFS = arc.FileSystem.Copy()   
+        let assay = ArcAssay("MyAssay")
+        study.AddAssay(assay)
+        arc.UpdateFileSystem()
+        let newFS = arc.FileSystem
+        Expect.notEqual oldFS.Tree newFS.Tree "Tree should be unequal"
+    )
 ]
 
 let main = testList "main" [
     test_model
+    test_updateFileSystem
     test_isaFromContracts
     test_writeContracts
 ]

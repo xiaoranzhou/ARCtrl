@@ -377,7 +377,11 @@ let private tests_arcAssay =
         let identifier = "MyIdentifier"
         let measurementType = OntologyAnnotation.fromString("Measurement Type")
         let technologyType = OntologyAnnotation.fromString("Technology Type")
-        let technologyPlatform = "Technology Platform"
+        let technologyPlatformName = "Technology Platform"
+        let technologyPlatformTSR = "ABC"
+        let technologyPlatformTAN = "ABC:123"
+        let technologyPlatform = OntologyAnnotation.fromString(technologyPlatformName,technologyPlatformTSR,technologyPlatformTAN)
+        let technologyPlatformExpectedString = $"{technologyPlatformName} ({technologyPlatformTAN})"
         let t1 = singleRowSingleParam.Copy()
         let t2 = 
             singleRowDataInputWithCharacteristic.Copy() |> fun t -> ArcTable.create(tableName2, t.Headers, t.Values)
@@ -418,7 +422,7 @@ let private tests_arcAssay =
             Expect.equal assay.TechnologyType.Value technologyType "Assay technologyType should match"
 
             Expect.isSome assay.TechnologyPlatform "Assay should have technologyPlatform"
-            Expect.equal assay.TechnologyPlatform.Value technologyPlatform "Assay technologyPlatform should match"
+            Expect.equal assay.TechnologyPlatform.Value technologyPlatformExpectedString "Assay technologyPlatform should match"
 
             Expect.isSome assay.ProcessSequence "Assay should have processes"
             Expect.equal assay.ProcessSequence.Value.Length 2 "Should have 2 processes"
@@ -523,6 +527,7 @@ let private tests_protocolTransformation =
             let t = p |> ArcTable.fromProtocol
 
             Expect.equal t.ColumnCount 0 "ColumnCount should be 0"
+            Expect.isTrue (Identifier.isMissingIdentifier t.Name) $"Name should be missing identifier, not \"{t.Name}\""
         )
         testCase "FromProtocol SingleParameter" (fun () ->
             let p = Protocol.create(Parameters = [pParam1])
@@ -576,7 +581,12 @@ let private tests_protocolTransformation =
             let c = c.Value
             Expect.equal c expected "Cell value does not match"
         )
+        testCase "GetProtocols NoName" (fun () ->           
+            let t = ArcTable.init "TestTable"
+            let expected = [Protocol.create(Name = "TestTable")]
 
+            TestingUtils.mySequenceEqual (t.GetProtocols()) expected "Protocol Name should be ArcTable name."
+        )
         testCase "GetProtocols SingleName" (fun () ->           
             let t = ArcTable.init "TestTable"
             let name = "Name"
