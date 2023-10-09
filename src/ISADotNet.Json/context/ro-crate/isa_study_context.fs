@@ -3,13 +3,15 @@ namespace ISADotNet.Json.ROCrateContext
 module Study =
 
   let context =
-  """
+    """
 {
   "@context": {
     "sdo": "http://schema.org/",
-    "arc": "https://github.com/nfdi4plants/ARC_ontology/blob/main/ARC_v1.1.owl/",
+    "arc": "http://purl.org/nfdi4plants/ontology/",
+
     "Study": "sdo:Dataset",
-    "ArcStudy": "arc:study",
+    "ArcStudy": "arc:ARC#ARC_00000014",
+
     "identifier": "sdo:identifier",
     "title": "sdo:headline",
     "description": "sdo:description",
@@ -21,17 +23,16 @@ module Study =
     "filename": "sdo:description",
     "comments": "sdo:disambiguatingDescription",
 
-    "??": "sdo:??",
-    "protocols": "arc:has_protocol",
-    "materials": "arc:has_study_material",
-    "otherMaterials": "arc:has_study_material",
-    "sources": "arc:has_study_material",
-    "samples": "arc:has_study_material",
-    "processSequence": "arc:has_process_sequence",
-    "factors": "arc:has_factor",
-    "characteristicCategories": "arc:has_characteristic_category",
-    "unitCategories": "arc:has_unit_category",
-    "studyDesignDescriptors": "arc:has_study_design_descriptor"
+    "protocols": "arc:ARC#ARC_00000039",
+    "materials": "arc:ARC#ARC_00000045",
+    "otherMaterials": "arc:ARC#ARC_00000045",
+    "sources": "arc:ARC#ARC_00000045",
+    "samples": "arc:ARC#ARC_00000045",
+    "processSequence": "arc:ARC#ARC_00000047",
+    "factors": "arc:ARC#ARC_00000043",
+    "characteristicCategories": "arc:ARC#ARC_00000049",
+    "unitCategories": "arc:ARC#ARC_00000051",
+    "studyDesignDescriptors": "arc:ARC#ARC_00000037"
   }
 }
-  """
+    """

@@ -3,14 +3,16 @@ namespace ISADotNet.Json.ROCrateContext
 module MaterialAttribute =
 
   let context =
-  """
+    """
 {
   "@context": {
     "sdo": "http://schema.org/",
-    "arc": "https://github.com/nfdi4plants/ARC_ontology/blob/main/ARC_v1.1.owl/",
+    "arc": "http://purl.org/nfdi4plants/ontology/",
+
     "MaterialAttribute": "sdo:Property",
-    "ArcMaterialAttribute": "arc:material_attribute",
-    "characteristicType": "arc:has_characteristic_type"
+    "ArcMaterialAttribute": "arc:ARC#ARC_00000050",
+
+    "characteristicType": "arc:ARC#ARC_00000098"
   }
 }
-  """
+    """

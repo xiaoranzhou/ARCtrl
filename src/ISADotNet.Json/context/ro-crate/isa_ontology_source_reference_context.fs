@@ -3,11 +3,14 @@ namespace ISADotNet.Json.ROCrateContext
 module OntologySourceReference =
 
   let context =
-  """
+    """
 {
   "@context": {
     "sdo": "http://schema.org/",
+    "arc": "http://purl.org/nfdi4plants/ontology/",
+
     "OntologySourceReference": "sdo:DefinedTermSet",
+    
     "type": "sdo:",
     "title": "sdo:headline",
     "description": "sdo:description",
@@ -17,4 +20,4 @@ module OntologySourceReference =
     "comments": "sdo:disambiguatingDescription"
   }
 }
-  """
+    """

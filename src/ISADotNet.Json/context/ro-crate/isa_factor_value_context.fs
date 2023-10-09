@@ -3,16 +3,18 @@ namespace ISADotNet.Json.ROCrateContext
 module FactorValue =
 
   let context =
-  """
+    """
 {
   "@context": {
     "sdo": "http://schema.org/",
-    "arc": "https://github.com/nfdi4plants/ARC_ontology/blob/main/ARC_v1.1.owl/",
+    "arc": "http://purl.org/nfdi4plants/ontology/",
+
     "FactorValue": "sdo:PropertyValue",
-    "ArcFactorValue": "arc:factor_value",
+    "ArcFactorValue": "arc:ARC#ARC_00000084",
+
     "category": "arc:category",
-    "value": "arc:has_value",
-    "unit": "arc:has_unit"
+    "value": "arc:ARC#ARC_00000044",
+    "unit": "arc:ARC#ARC_00000106"
   }
 }
-  """
+    """

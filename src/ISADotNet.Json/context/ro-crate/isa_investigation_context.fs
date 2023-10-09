@@ -3,10 +3,14 @@ namespace ISADotNet.Json.ROCrateContext
 module Investigation =
 
   let context =
-  """
+    """
 {
   "@context": {
     "sdo": "http://schema.org/",
+    "arc": "http://purl.org/nfdi4plants/ontology/",
+
+    "Investigation": "sdo:Dataset",
+
     "identifier" : "sdo:identifier",
     "title": "sdo:headline",
     "description": "sdo:description",
@@ -18,10 +22,8 @@ module Investigation =
     "ontologySourceReferences": "sdo:mentions",
     "comments": "sdo:disambiguatingDescription",
 
-    "??": "sdo:??",
-    "Investigation": "sdo:Dataset",
     "publications?": "sdo:subjectOf?",
     "filename": "sdo:alternateName"
   }
 }
-  """
+    """

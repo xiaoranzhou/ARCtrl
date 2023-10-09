@@ -3,21 +3,23 @@ namespace ISADotNet.Json.ROCrateContext
 module Protocol =
 
   let context =
-  """
+    """
 {
   "@context": {
     "sdo": "http://schema.org/",
-    "arc": "https://github.com/nfdi4plants/ARC_ontology/blob/main/ARC_v1.1.owl/",
+    "arc": "http://purl.org/nfdi4plants/ontology/",
+
     "Protocol": "sdo:Thing",
-    "ArcProtocol": "arc:protocol",
-    "name": "arc:name",
-    "protocolType": "arc:has_protocol_type",
-    "description": "arc:description",
-    "version": "arc:version",
-    "components": "arc:has_component",
-    "parameters": "arc:has_parameter",
-    "uri": "arc:URI",
-    "comments": "arc:has_comment"
+    "ArcProtocol": "arc:ARC#ARC_00000040",
+
+    "name": "arc:ARC#ARC_00000019",
+    "protocolType": "arc:ARC#ARC_00000060",
+    "description": "arc:ARC#ARC_00000004",
+    "version": "arc:ARC#ARC_00000020",
+    "components": "arc:ARC#ARC_00000064",
+    "parameters": "arc:ARC#ARC_00000062",
+    "uri": "arc:ARC#ARC_00000061",
+    "comments": "arc:ARC#ARC_00000016"
   }
 }
-  """
+    """

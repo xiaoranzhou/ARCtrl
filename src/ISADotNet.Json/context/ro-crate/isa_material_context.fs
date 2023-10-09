@@ -3,17 +3,19 @@ namespace ISADotNet.Json.ROCrateContext
 module Material =
 
   let context =
-  """
+    """
 {
   "@context": {
     "sdo": "http://schema.org/",
-    "arc": "https://github.com/nfdi4plants/ARC_ontology/blob/main/ARC_v1.1.owl/",
-    "ArcMaterial": "arc:material",
+    "arc": "http://purl.org/nfdi4plants/ontology/",
+
+    "ArcMaterial": "arc:ARC#ARC_00000108",
     "Material": "sdo:Thing",
-    "type": "arc:material_type",
-    "name": "arc:name",
-    "characteristics": "arc:has_characteristic",
-    "derivesFrom": "arc:derives_from"
+
+    "type": "arc:ARC#ARC_00000085",
+    "name": "arc:ARC#ARC_00000019",
+    "characteristics": "arc:ARC#ARC_00000080",
+    "derivesFrom": "arc:ARC#ARC_00000082"
   }
 }
-  """
+    """

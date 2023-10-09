@@ -3,26 +3,29 @@ namespace ISADotNet.Json.ROCrateContext
 module Assay =
 
   let context =
-  """
+    """
 {
   "@context": {
     "sdo": "https://schema.org/",
-    "arc": "https://github.com/nfdi4plants/ARC_ontology/blob/main/ARC_v1.1.owl/",
+    "arc": "http://purl.org/nfdi4plants/ontology/",
+
     "Assay": "sdo:Dataset",
-    "ArcAssay": "arc:assay",
+    "ArcAssay": "arc:ARC#ARC_00000042",
+
     "measurementType": "sdo:variableMeasured",
     "technologyType": "sdo:measurementTechnique",
     "technologyPlatform": "sdo:instrument",
     "dataFiles": "sdo:hasPart",
 
-    "materials": "arc:has_assay_material",
-    "otherMaterials": "arc:has_assay_material",
-    "samples": "arc:has_assay_material",
-    "characteristicCategories": "arc:has_characteristic_category",
-    "processSequences": "arc:has_process_sequence",
-    "unitCategories": "arc:has_unit_category",
+    "materials": "arc:ARC#ARC_00000074",
+    "otherMaterials": "arc:ARC#ARC_00000074",
+    "samples": "arc:ARC#ARC_00000074",
+    "characteristicCategories": "arc:ARC#ARC_00000049",
+    "processSequences": "arc:ARC#ARC_00000047",
+    "unitCategories": "arc:ARC#ARC_00000051",
+
     "comments": "sdo:disambiguatingDescription",
     "filename": "sdo:url"
   }
 }
-  """
+    """

@@ -3,15 +3,17 @@ namespace ISADotNet.Json.ROCrateContext
 module Component =
 
   let context =
-  """
+   """
 {
   "@context": {
     "sdo": "http://schema.org/",
-    "arc": "https://github.com/nfdi4plants/ARC_ontology/blob/main/ARC_v1.1.owl/",
+    "arc": "http://purl.org/nfdi4plants/ontology/",
+    
     "Component": "sdo:Thing",
-    "ArcComponent": "arc:component",
-    "componentName": "arc:name",
-    "componentType": "arc:has_component_type"
+    "ArcComponent": "arc:ARC#ARC_00000065",
+
+    "componentName": "arc:ARC#ARC_00000019",
+    "componentType": "arc:ARC#ARC_00000102"
   }
 }
-  """
+    """

@@ -3,11 +3,14 @@ namespace ISADotNet.Json.ROCrateContext
 module Person =
 
   let context =
-  """
+    """
 {
   "@context": {
     "sdo": "http://schema.org/",
+    "arc": "http://purl.org/nfdi4plants/ontology/",
+
     "Person": "sdo:Person",
+    
     "firstName": "sdo:givenName",
     "lastName": "sdo:familyName",
     "midInitials": "sdo:additionalName",
@@ -20,4 +23,4 @@ module Person =
     "affiliation": "sdo:affiliation"
   }
 }
-  """
+    """
