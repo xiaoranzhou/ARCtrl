@@ -26,7 +26,7 @@ let arc = ARC()
 
 ```js
 // JavaScript
-import {ARC} from "@nfdi4plants/arctrl";
+import {ARC} from "@nfdi4plants/arctrl/ARCtrl.js";
 
 let arc = new ARC()
 ```
